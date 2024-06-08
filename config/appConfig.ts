@@ -85,7 +85,7 @@ const appConfig = {
   },
   share: {},
   feedback: {
-    // generalFeedbackForm: 'https://forms.gle/kZ659D87vZyYQihs8',
+    generalFeedbackForm: 'https://forms.gle/kZ659D87vZyYQihs8',
   },
   build: {
     pageRevalidateTimeInSec: {},
