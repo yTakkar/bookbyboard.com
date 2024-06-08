@@ -1,0 +1,18 @@
+// User form
+.user-input {
+  &::placeholder {
+    @apply text-base;
+  }
+
+  &-error {
+    border-color: red !important;
+  }
+
+  &-group {
+    @apply mb-5;
+  }
+
+  &-label {
+    @apply text-sm text-typo-title font-bold mb-2;
+  }
+}

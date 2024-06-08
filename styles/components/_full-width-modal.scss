@@ -1,0 +1,50 @@
+// Full width modal
+.fullWidthModalOverrides {
+  & .modal-header {
+    @apply bg-white border-b border-gray-400 rounded-t-lg;
+    @include mobile {
+      border-radius: 0 !important;
+    }
+  }
+
+  @include mobile {
+    @apply w-full absolute top-0;
+    width: 100% !important;
+    margin: 0 !important;
+    height: 100% !important;
+    border-radius: 0 !important;
+    margin-top: 30px !important;
+
+    & .content {
+      height: calc(var(--vh) * 100 - 150px);
+      @apply overflow-y-auto;
+    }
+  }
+
+  @include desktop {
+    & .content {
+      height: 580px;
+      @apply pb-16 overflow-y-auto;
+    }
+  }
+
+  &.noFooter {
+    @include mobile {
+      & .content {
+        height: calc(var(--vh) * 100 - 70px);
+      }
+    }
+
+    @include desktop {
+      & .content {
+        height: 580px;
+      }
+    }
+
+    @include desktop {
+      & .content {
+        padding-bottom: 1rem;
+      }
+    }
+  }
+}
