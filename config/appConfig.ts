@@ -1,6 +1,6 @@
 const app = {
-  name: 'MyLikes',
-  shortName: 'MyLikes',
+  name: 'BookByBoard',
+  shortName: 'BookByBoard',
   tagLine: 'Empower Your Recommendations, Elevate Your Influence with MyLikes',
   title: 'MyLikes - Share Recommendations, Discover Passions, and Build Community',
   description:
@@ -121,48 +121,34 @@ const appConfig = {
     },
   },
   company: {
-    name: 'MyLikes',
-    contactEmail: 'team@mylikes.page',
+    name: 'BookByBoard',
+    contactEmail: 'bookbyboard@gmail.com',
     socialLinks: [
       {
         type: 'INSTAGRAM',
-        url: 'https://www.instagram.com/mylikes.page',
+        url: 'https://www.instagram.com/bookbyboard.page',
         name: 'Instagram',
         isExternal: true,
-        username: 'mylikes.page',
+        username: 'bookbyboard.page',
       },
       {
         type: 'TWITTER',
-        url: 'https://twitter.com/mylikespage',
+        url: 'https://x.com/bookbyboard',
         name: 'Twitter',
         isExternal: true,
-        username: 'mylikespage',
+        username: 'bookbyboard',
       },
-      {
-        type: 'FACEBOOK',
-        url: 'https://www.facebook.com/mylikesFB',
-        name: 'Facebook',
-        isExternal: true,
-        username: 'mylikesFB',
-      },
-      // {
-      //   type: 'LINKEDIN',
-      //   url: 'https://www.linkedin.com/company/mylikes-page/',
-      //   name: 'LinkedIn',
-      //   isExternal: true,
-      //   username: 'mylikes-page',
-      // },
-      // {
-      //   type: 'YOUTUBE',
-      //   url: 'https://www.youtube.com/channel/UCp7xl0E-JtFQamoZNBO8yGw',
-      //   name: 'YouTube',
-      //   isExternal: true,
-      // },
-      // { type: 'WHATSAPP', url: 'https://wa.me/+919999999999', name: 'WhatsApp', isExternal: true },
-      { type: 'EMAIL', url: 'mailto:team@mylikes.page', name: 'Mail', isExternal: true },
+      { type: 'EMAIL', url: 'mailto:bookbyboard@gmail.com', name: 'Mail', isExternal: true },
     ],
   },
-  footer: {},
+  footer: {
+    links: [
+      // { label: 'Privacy Policy', url: '/privacy-policy' },
+      // { label: 'Terms of Use', url: '/terms-conditions' },
+      // { label: 'About Us', url: '/about' },
+    ].filter(Boolean),
+    copyrightText: `&copy; ${new Date().getFullYear()} ${app.name}. All rights reserved.`,
+  },
   admin: {},
   author: {
     website: 'https://faiyaztakkar.dev',

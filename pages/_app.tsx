@@ -20,6 +20,7 @@ import { Analytics } from '@vercel/analytics/react'
 import GeneralFeedbackFormButton from '../components/GeneralFeedbackFormButton'
 import { DesktopView } from '../components/ResponsiveViews'
 import appAnalytics from '../lib/analytics/appAnalytics'
+import Footer from '../components/footer/Footer'
 
 Router.events.on('routeChangeStart', () => {
   dynamicNprogress().then(mod => mod.start())
@@ -119,7 +120,7 @@ const MyApp: NextPage<IProps> = props => {
               <Component {...pageProps} key={router.route} />
             )}
 
-            {/* {footer?.show ? <Footer /> : null} */}
+            {footer?.show ? <Footer /> : null}
           </main>
 
           <CookieBanner />

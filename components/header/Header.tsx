@@ -124,12 +124,6 @@ const Header: React.FC<INavbarProps> = props => {
                     disableLazyload
                   />
                 </CoreLink>
-
-                {/* <DesktopView useCSS>
-                  <div className="w-96">
-                    <HeaderSearch />
-                  </div>
-                </DesktopView> */}
               </div>
 
               <div style={{ display: 'inherit' }}>
