@@ -1,6 +1,6 @@
 import { BrowserOptions } from '@sentry/react'
 import { dynamicSentry, dynamicSentryTracingIntegrations } from '../../components/dynamicModules'
-import { IUserInfo } from '../../interface/user'
+import { IBoardMemberInfo } from '../../interface/boardMember'
 import { ISentryErrorReporting } from './interface'
 import appConfig from '../../config/appConfig'
 
@@ -31,18 +31,17 @@ class SentryErrorReporting implements ISentryErrorReporting {
     await this.sentry.init(config)
   }
 
-  public setUser(userInfo: IUserInfo): void {
+  public setUser(userInfo: IBoardMemberInfo): void {
     this._loadSentry().then(() => {
       this._setUser(userInfo)
     })
   }
 
-  public _setUser(userInfo: IUserInfo): void {
+  public _setUser(userInfo: IBoardMemberInfo): void {
     if (this.sentry && userInfo) {
       this.sentry.setUser({
         id: userInfo.id,
         email: userInfo.email,
-        username: userInfo.username,
       })
     }
   }

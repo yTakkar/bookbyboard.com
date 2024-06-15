@@ -1,13 +1,13 @@
 import { User } from 'firebase/auth'
-import { IUserInfo } from '../interface/user'
+import { IBoardMemberInfo } from '../interface/boardMember'
 import appConfig from '../config/appConfig'
+import { decode, encode } from './storage'
 import { getRandomAvatar } from './avatars'
 import { dynamicUniqueNamesGenerator } from '../components/dynamicModules'
-import { decode, encode } from './storage'
 
-const key = `${appConfig.global.app.key}-USER-INFO__V2`
+const key = `${appConfig.global.app.key}-BOARD-MEMBER-INFO`
 
-export const getLocalUserInfo = (): IUserInfo | null => {
+export const getLocalBoardMemberInfo = (): IBoardMemberInfo | null => {
   const data = localStorage.getItem(key)
   if (data) {
     return JSON.parse(decode(data))
@@ -15,15 +15,15 @@ export const getLocalUserInfo = (): IUserInfo | null => {
   return null
 }
 
-export const setLocalUserInfo = (userInfo: IUserInfo) => {
+export const setLocalBoardMemberInfo = (userInfo: IBoardMemberInfo) => {
   localStorage.setItem(key, encode(JSON.stringify(userInfo)))
 }
 
-export const deleteLocalUserInfo = () => {
+export const deleteLocalBoardMemberInfo = () => {
   localStorage.removeItem(key)
 }
 
-export const prepareUserInfo = async (user: User): Promise<IUserInfo> => {
+export const prepareBoardMemberInfo = async (user: User): Promise<IBoardMemberInfo> => {
   const uniqueNamesGenerator = await dynamicUniqueNamesGenerator()
 
   const numberDictionary = uniqueNamesGenerator.NumberDictionary.generate({ min: 100, max: 1e10 })
@@ -37,13 +37,13 @@ export const prepareUserInfo = async (user: User): Promise<IUserInfo> => {
 
   return {
     id: user.uid,
-    username: username,
+    username,
     name: user.displayName!,
     email: user.email!,
     createdAt: new Date().getTime(),
-    avatarUrl: avatar,
     bio: null,
     websiteUrl: null,
+    avatarUrl: avatar,
     socialUsernames: {
       instagram: null,
       twitter: null,
@@ -52,6 +52,6 @@ export const prepareUserInfo = async (user: User): Promise<IUserInfo> => {
   }
 }
 
-export const isSessionUser = (user: IUserInfo | null, profileInfo: IUserInfo | null) => {
+export const isSessionUser = (user: IBoardMemberInfo | null, profileInfo: IBoardMemberInfo | null) => {
   return user?.email === profileInfo?.email
 }

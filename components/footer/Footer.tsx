@@ -36,7 +36,7 @@ const Footer: React.FC<IFooterProps> = () => {
         </div>
       </div> */}
 
-      <div className="flex flex-row items-center justify-center py-6 px-6 bg-aliceBlue text-typo-paragraphLight shadow-inner">
+      <div className="flex flex-row items-center justify-center py-4 px-6 bg-aliceBlue text-typo-paragraphLight shadow-inner">
         ~ A weekend project by
         <CoreLink url={appConfig.author.website} className="flex items-center underline" isExternal>
           <CoreImage url={'/images/author.jpeg'} alt="Faiyaz" className="w-5 mr-1 ml-2 rounded-full" />

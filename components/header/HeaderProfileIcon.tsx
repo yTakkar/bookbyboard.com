@@ -12,7 +12,7 @@ const HeaderProfileIcon: React.FC<IHeaderProfileIconProps> = props => {
   const { className, active } = props
 
   const applicationContext = useContext(ApplicationContext)
-  const { user } = applicationContext
+  const { boardMember: user } = applicationContext
 
   return (
     <CoreImage

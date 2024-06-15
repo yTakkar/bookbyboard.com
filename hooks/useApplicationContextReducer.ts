@@ -2,7 +2,7 @@ import { Dispatch, useReducer } from 'react'
 import { defaultApplicationContext } from '../components/ApplicationContext'
 import { IApplicationContextProps } from '../interface/applicationContext'
 import { IDeviceInfo } from '../interface/device'
-import { IUserInfo } from '../interface/user'
+import { IBoardMemberInfo } from '../interface/boardMember'
 import { PopupParams, PopupType } from '../interface/popup'
 
 export type ApplicationContextAction =
@@ -14,8 +14,8 @@ export type ApplicationContextAction =
       type: 'RESET'
     }
   | {
-      type: 'UPDATE_USER'
-      payload: IUserInfo | null
+      type: 'UPDATE_BOARD_MEMBER'
+      payload: IBoardMemberInfo | null
     }
   | {
       type: 'TOGGLE_POPUP'
@@ -37,10 +37,10 @@ const applicationReducer = (
       }
     }
 
-    case 'UPDATE_USER': {
+    case 'UPDATE_BOARD_MEMBER': {
       return {
         ...state,
-        user: action.payload,
+        boardMember: action.payload,
       }
     }
 

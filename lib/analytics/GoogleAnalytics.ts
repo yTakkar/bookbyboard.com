@@ -1,11 +1,11 @@
 import appConfig from '../../config/appConfig'
-import { IUserInfo } from '../../interface/user'
-import { getLocalUserInfo } from '../../utils/user'
+import { IBoardMemberInfo } from '../../interface/boardMember'
+import { getLocalBoardMemberInfo } from '../../utils/boardMember'
 import { IGA, IGAEventParams, IGAPageViewParams } from './interface'
 
 class GoogleAnalytics implements IGA {
   public async init(): Promise<void> {
-    const localUserInfo = getLocalUserInfo()
+    const localUserInfo = getLocalBoardMemberInfo()
     if (localUserInfo) {
       await ga('config', {
         user_id: localUserInfo.id,
@@ -24,7 +24,7 @@ class GoogleAnalytics implements IGA {
     ga('set', options)
   }
 
-  public setUser(userInfo: IUserInfo): void {
+  public setUser(userInfo: IBoardMemberInfo): void {
     ga('set', {
       user_id: userInfo.id,
     })

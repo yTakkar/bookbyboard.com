@@ -13,7 +13,7 @@ interface IProps extends IGlobalLayoutProps {
 
 const Home: NextPage<IProps> = () => {
   const applicationContext = useContext(ApplicationContext)
-  const { user, methods } = applicationContext
+  const { boardMember: user, methods } = applicationContext
 
   const router = useRouter()
 

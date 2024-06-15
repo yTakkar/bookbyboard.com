@@ -9,7 +9,7 @@ import {
 import CoreLink from '../core/CoreLink'
 import usePWAInstall from '../../hooks/usePWAInstall'
 import HeaderLinks, { IHeaderLink } from './HeaderLinks'
-import { getHomePageUrl, getMorePageUrl, getProfilePageUrl } from '../../utils/routes'
+import { getHomePageUrl, getMorePageUrl, getMemberPageUrl } from '../../utils/routes'
 import ApplicationContext from '../ApplicationContext'
 import HeaderProfileIcon from './HeaderProfileIcon'
 import CoreImage from '../core/CoreImage'
@@ -26,7 +26,7 @@ const Header: React.FC<INavbarProps> = props => {
 
   const applicationContext = useContext(ApplicationContext)
   const {
-    user,
+    boardMember: user,
     methods,
     device: { isMobile },
   } = applicationContext
@@ -63,7 +63,7 @@ const Header: React.FC<INavbarProps> = props => {
     // },
     {
       label: isMobile ? null : user?.name || '',
-      url: getProfilePageUrl(user?.username || ''),
+      url: getMemberPageUrl(user?.username || ''),
       iconComponent: ({ className }) => <HeaderProfileIcon className={className} active={false} />,
       activeIconComponent: ({ className }) => <HeaderProfileIcon className={className} active />,
       iconClassName: null,
@@ -81,7 +81,7 @@ const Header: React.FC<INavbarProps> = props => {
       onClick: e => {
         e.preventDefault()
         methods.login(userInfo => {
-          router.push(getProfilePageUrl(userInfo.username))
+          router.push(getMemberPageUrl(userInfo.username))
         })
       },
       show: !user,

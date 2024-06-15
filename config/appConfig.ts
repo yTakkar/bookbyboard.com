@@ -88,8 +88,12 @@ const appConfig = {
     generalFeedbackForm: 'https://forms.gle/kZ659D87vZyYQihs8',
   },
   build: {
-    pageRevalidateTimeInSec: {},
-    initialPageBuildCount: {},
+    pageRevalidateTimeInSec: {
+      MEMBER: 30 * 60,
+    },
+    initialPageBuildCount: {
+      MEMBER: 100,
+    },
   },
   integrations: {
     googleAnalytics: {

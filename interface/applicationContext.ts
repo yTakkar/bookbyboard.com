@@ -1,12 +1,12 @@
 import { ApplicationContextAction } from '../hooks/useApplicationContextReducer'
 import { IDeviceInfo } from './device'
 import { PopupParams, PopupType } from './popup'
-import { IUserInfo } from './user'
+import { IBoardMemberInfo } from './boardMember'
 
 export interface IContextMethods {
   togglePopup: (popup: PopupType, params: PopupParams) => void
-  updateUser: (userInfo: IUserInfo | null) => void
-  login: (onSuccess?: (userInfo: IUserInfo) => void) => Promise<void>
+  updateBoardMember: (userInfo: IBoardMemberInfo | null) => void
+  login: (onSuccess?: (userInfo: IBoardMemberInfo) => void) => Promise<void>
   logout: () => void
   dispatch: (action: ApplicationContextAction) => void
 }
@@ -14,6 +14,6 @@ export interface IContextMethods {
 export interface IApplicationContextProps {
   device: IDeviceInfo
   popups: Partial<Record<PopupType, PopupParams>>
-  user: IUserInfo | null
+  boardMember: IBoardMemberInfo | null
   methods: IContextMethods
 }

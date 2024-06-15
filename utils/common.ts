@@ -3,6 +3,7 @@ import { getHomePageUrl } from './routes'
 import { VibratePatternType } from '../constants/constants'
 import { Timestamp } from 'firebase/firestore'
 import numeral from 'numeral'
+import { ADMIN_USERS } from '../constants/admin'
 
 // Ref: last comment on this page: https://bugs.webkit.org/show_bug.cgi?id=153852#c43
 export const disablePageScrolling = () => {
@@ -169,8 +170,6 @@ export const copyToClipboard = (secretInfo: string) => {
   body.removeChild(tempInput)
 }
 
-export const isAdminUser = (email: string) => {
-  return email?.endsWith('@mylikes.page') || email === 'mylikescontact@gmail.com'
-}
+export const isAdminUser = (email: string) => ADMIN_USERS.includes(email)
 
 export const withHttp = (url: string) => (!/^https?:\/\//i.test(url) ? `http://${url}` : url)

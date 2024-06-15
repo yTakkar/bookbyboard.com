@@ -1,7 +1,7 @@
-export interface IUserInfo {
+export interface IBoardMemberInfo {
   id: string
-  username: string
   email: string
+  username: string
   name: string
   createdAt: number // date mills
   avatarUrl: string
@@ -12,9 +12,8 @@ export interface IUserInfo {
     instagram: string | null
     youtube: string | null
   }
-  _isAdmin?: boolean
 }
 
-export interface IListUsersParams {
+export interface IListBoardMembersParams {
   limit: number
 }

@@ -24,10 +24,10 @@ export const defaultApplicationContext: IApplicationContextProps = {
     is2Xl: false,
   },
   popups: {},
-  user: null,
+  boardMember: null,
   methods: {
     togglePopup: () => null,
-    updateUser: () => null,
+    updateBoardMember: () => null,
     login: async () => {
       return
     },

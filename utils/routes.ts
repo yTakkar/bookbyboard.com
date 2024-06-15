@@ -22,6 +22,10 @@ export const get404PageUrl = () => {
   return '/not-found'
 }
 
-export const getProfilePageUrl = (username: string) => {
-  return `/profile/${username}`
+export const getMemberPageUrl = (username: string) => {
+  return `/member/${username}`
+}
+
+export const getMemberEditPageUrl = () => {
+  return `/member/edit`
 }

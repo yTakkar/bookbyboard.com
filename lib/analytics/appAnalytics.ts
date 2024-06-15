@@ -1,6 +1,6 @@
 import appConfig from '../../config/appConfig'
 import { AnalyticsEventType } from '../../constants/analytics'
-import { IUserInfo } from '../../interface/user'
+import { IBoardMemberInfo } from '../../interface/boardMember'
 import googleAnalytics from './GoogleAnalytics'
 import { IAnalyticsEventParams, IAnalyticsPageViewParams } from './interface'
 import mixPanelAnalytics from './MixPanelAnalytics'
@@ -27,7 +27,7 @@ const sendPageView = (params: IAnalyticsPageViewParams) => {
   }
 }
 
-const setUser = (user: IUserInfo) => {
+const setUser = (user: IBoardMemberInfo) => {
   if (appConfig.integrations.googleAnalytics.enabled) {
     googleAnalytics.setUser(user)
   }
