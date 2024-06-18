@@ -1,15 +1,25 @@
 export interface IBookInfo {
   id: string
-  name: string
+  title: string
+  subTitle: string
+  description: string
+  authors: string[]
   url: string
-  imageUrl: string
+  imageUrls: {
+    smallThumbnail: string
+    thumbnail: string
+  }
+  pageCount: number
+  publisher: string
+  publishedDate: string
+  language: string
 }
 
-export interface IBookDetail extends IBookInfo {
-  summary: string
-  author: string
-  releasedDate: string
-  // genre
-  // noOfPages
-  // rating
+export enum BookZoomType {
+  SMALL_THUMBNAIL = 1,
+  THUMBNAIL = 2,
+  SMALL = 3,
+  MEDIUM = 4,
+  LARGE = 5,
+  EXTRA_LARGE = 6,
 }

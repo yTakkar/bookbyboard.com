@@ -4,6 +4,7 @@ import { IApplicationContextProps } from '../interface/applicationContext'
 import { IDeviceInfo } from '../interface/device'
 import { IBoardMemberInfo } from '../interface/boardMember'
 import { PopupParams, PopupType } from '../interface/popup'
+import { INominationDetail } from '../interface/nomination'
 
 export type ApplicationContextAction =
   | {
@@ -23,6 +24,10 @@ export type ApplicationContextAction =
         popup: PopupType
         params: PopupParams
       }
+    }
+  | {
+      type: 'UPDATE_NOMINATION'
+      payload: INominationDetail | null
     }
 
 const applicationReducer = (
@@ -59,6 +64,13 @@ const applicationReducer = (
         popups: {
           [popup]: params,
         },
+      }
+    }
+
+    case 'UPDATE_NOMINATION': {
+      return {
+        ...state,
+        nomination: action.payload,
       }
     }
 

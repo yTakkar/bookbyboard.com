@@ -25,6 +25,7 @@ export const defaultApplicationContext: IApplicationContextProps = {
   },
   popups: {},
   boardMember: null,
+  nomination: null,
   methods: {
     togglePopup: () => null,
     updateBoardMember: () => null,

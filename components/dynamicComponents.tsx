@@ -31,3 +31,10 @@ export const DynamicChangeAvatarPopup = dynamic(
     ssr: false,
   }
 )
+
+export const DynamicSelectBookPopup = dynamic(
+  () => import(/* webpackChunkName: "SelectBookPopup" */ 'components/popup/SelectBookPopup'),
+  {
+    ssr: false,
+  }
+)

@@ -1,19 +1,20 @@
-import { IBookDetail, IBookInfo } from './book'
+import { IBookInfo } from './book'
 
 export interface INominationSuggestion {
-  boardMemberId: string
-  bookInfo: IBookInfo
+  boardMemberEmail: string
+  book: IBookInfo
   note: string | null
+  voteCount: number | null
 }
 
 export interface INominationSelectedBook {
   id: string
-  bookDetail: IBookDetail
+  book: IBookInfo
 }
 
 export interface INominationDetail {
   id: string // month-year
-  date: string // date mills
+  date: number // date mills
   suggestions: INominationSuggestion[]
   selectedBook: INominationSelectedBook | null
 }

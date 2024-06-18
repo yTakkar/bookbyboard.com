@@ -20,6 +20,10 @@ export enum AnalyticsEventType {
   PWA_INSTALL_SUCCESS = 'pwa_install_success',
   PWA_INSTALL_FAILED = 'pwa_install_failed',
 
+  // nomination
+  NOMINATION_ADD = 'nomination_add',
+  NOMINATION_UPDATE = 'nomination_update',
+
   // general
   FEEDBACK = 'feedback',
 }

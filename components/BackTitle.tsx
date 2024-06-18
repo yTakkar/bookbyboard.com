@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { useRouter } from 'next/router'
 import { ArrowLeftIcon } from '@heroicons/react/solid'
 import classnames from 'classnames'
 import { routerPageBack } from '../utils/common'
 
 interface IBackTitleProps {
-  title: string
+  title: ReactNode
   backUrl?: string
   className?: string
   rhsContent?: React.ReactNode

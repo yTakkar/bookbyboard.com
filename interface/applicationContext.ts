@@ -2,6 +2,7 @@ import { ApplicationContextAction } from '../hooks/useApplicationContextReducer'
 import { IDeviceInfo } from './device'
 import { PopupParams, PopupType } from './popup'
 import { IBoardMemberInfo } from './boardMember'
+import { INominationDetail } from './nomination'
 
 export interface IContextMethods {
   togglePopup: (popup: PopupType, params: PopupParams) => void
@@ -16,4 +17,5 @@ export interface IApplicationContextProps {
   popups: Partial<Record<PopupType, PopupParams>>
   boardMember: IBoardMemberInfo | null
   methods: IContextMethods
+  nomination: INominationDetail | null
 }

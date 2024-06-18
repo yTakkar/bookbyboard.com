@@ -108,6 +108,11 @@ const appConfig = {
       enabled: process.env.ENV_INTEGRATION_SENTRY_ENABLED === 'true',
       dsn: process.env.ENV_INTEGRATION_SENTRY_DSN,
     },
+    googleBooks: {
+      enabled: process.env.ENV_INTEGRATION_GOOGLE_BOOKS_ENABLED === 'true',
+      baseUrl: process.env.ENV_INTEGRATION_GOOGLE_BOOKS_BASE_URL,
+      apiKey: process.env.ENV_INTEGRATION_GOOGLE_BOOKS_API_KEY,
+    },
     imageTransformation: {
       enabled: process.env.ENV_INTEGRATION_CLOUDINARY_ENABLED === 'true',
       variants: {

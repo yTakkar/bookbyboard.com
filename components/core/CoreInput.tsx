@@ -13,8 +13,8 @@ export enum CoreTextInputType {
 
 interface ICoreInputProps {
   type: CoreTextInputType
-  value: string
-  setValue: (value: string) => void
+  value?: string
+  setValue?: (value: string) => void
   placeholder: string
   disabled?: boolean
   autoFocus?: boolean
@@ -25,6 +25,7 @@ interface ICoreInputProps {
   inputClassName?: string
   className?: string
   sanitizeOnBlur?: boolean
+  onEnter?: (value: string) => void
 }
 
 const CoreTextInput = React.forwardRef<any, ICoreInputProps>((props, ref) => {
@@ -42,10 +43,18 @@ const CoreTextInput = React.forwardRef<any, ICoreInputProps>((props, ref) => {
     className,
     maxLength,
     sanitizeOnBlur = false,
+    onEnter,
   } = props
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const inputRef: any = ref || useRef<HTMLInputElement | null>(null)
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      // @ts-ignore
+      onEnter?.(e.target.value)
+    }
+  }
 
   return (
     <div className={classnames('relative', className)}>
@@ -59,10 +68,10 @@ const CoreTextInput = React.forwardRef<any, ICoreInputProps>((props, ref) => {
           inputClassName
         )}
         value={value}
-        onChange={e => setValue(e.target.value)}
+        onChange={e => setValue?.(e.target.value)}
         onBlur={e => {
           if (sanitizeOnBlur) {
-            setValue(getSanitizedValue(e.target.value))
+            setValue?.(getSanitizedValue(e.target.value))
           }
         }}
         disabled={disabled}
@@ -71,6 +80,7 @@ const CoreTextInput = React.forwardRef<any, ICoreInputProps>((props, ref) => {
         spellCheck="false"
         autoFocus={autoFocus}
         maxLength={maxLength}
+        onKeyDown={handleKeyDown}
       />
       {value && showClearIcon ? (
         <div className="absolute right-2 top-1/2 w-6 -translate-y-1/2 transform cursor-pointer" title="Clear">

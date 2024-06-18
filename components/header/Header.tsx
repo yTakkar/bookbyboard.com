@@ -15,6 +15,7 @@ import HeaderProfileIcon from './HeaderProfileIcon'
 import CoreImage from '../core/CoreImage'
 import { APP_LOGO } from '../../constants/constants'
 import { useRouter } from 'next/router'
+import useNomination from '../../hooks/useNomination'
 
 interface INavbarProps {
   topNavVisibility: boolean
@@ -30,6 +31,8 @@ const Header: React.FC<INavbarProps> = props => {
     methods,
     device: { isMobile },
   } = applicationContext
+
+  useNomination()
 
   const router = useRouter()
 

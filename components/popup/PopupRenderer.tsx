@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { DynamicChangeAvatarPopup, DynamicLoginPopup } from '../dynamicComponents'
+import { DynamicChangeAvatarPopup, DynamicLoginPopup, DynamicSelectBookPopup } from '../dynamicComponents'
 import ApplicationContext from '../ApplicationContext'
 import { PopupType } from '../../interface/popup'
 
@@ -10,6 +10,7 @@ function PopupRenderer() {
   const popupComponentMap: Record<PopupType, any> = {
     [PopupType.LOGIN]: DynamicLoginPopup,
     [PopupType.CHANGE_AVATAR]: DynamicChangeAvatarPopup,
+    [PopupType.SELECT_BOOK]: DynamicSelectBookPopup,
   }
 
   const popupMemo = (

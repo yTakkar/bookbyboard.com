@@ -29,3 +29,7 @@ export const getMemberPageUrl = (username: string) => {
 export const getMemberEditPageUrl = () => {
   return `/member/edit`
 }
+
+export const getNominationPageUrl = () => {
+  return '/nomination'
+}

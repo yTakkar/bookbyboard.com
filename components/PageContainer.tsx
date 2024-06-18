@@ -4,7 +4,7 @@ import Container from './Container'
 interface IPageContainerProps extends PropsWithChildren {}
 
 const PageContainer: React.FC<IPageContainerProps> = props => {
-  return <Container className="min-h-[68vh]">{props.children}</Container>
+  return <Container className="min-h-[80vh]">{props.children}</Container>
 }
 
 export default PageContainer
