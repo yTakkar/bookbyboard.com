@@ -1,8 +1,8 @@
-import { INominationDetail } from '../interface/nomination'
+import { INominationDetail, INominationSuggestion } from '../interface/nomination'
 
 export const getNominationId = () => {
-  const currentMonth = new Date().getMonth()
-  const currentYear = new Date().getFullYear()
+  const currentMonth = new Date().getUTCMonth()
+  const currentYear = new Date().getUTCFullYear()
 
   const nextMonth = currentMonth === 11 ? 0 : currentMonth + 1
   const nextYear = nextMonth === 0 ? currentYear + 1 : currentYear
@@ -27,4 +27,24 @@ export const hasMemberNominated = (email: string | null, nomination: INomination
   return false
 }
 
-export const hasMemberVoted = () => false
+export const hasMemberVoted = (email: string | null, nomination: INominationDetail | null): boolean => {
+  if (!email || !nomination?.suggestions) return false
+  const alLVotes = nomination.suggestions.map(suggestion => suggestion.votes || []).flat()
+  return alLVotes.some(vote => vote === email)
+}
+
+export const getMemberVotedSuggestion = (
+  email: string | null,
+  nomination: INominationDetail | null
+): INominationSuggestion | null => {
+  if (!email || !nomination?.suggestions) return null
+
+  const foundSuggestions = nomination.suggestions
+    .map(s => {
+      if ((s.votes || []).includes(email)) return s
+      return null
+    })
+    .filter(s => s !== null) as INominationSuggestion[]
+
+  return foundSuggestions[0] || null
+}

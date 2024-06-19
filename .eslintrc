@@ -43,7 +43,8 @@
     "@typescript-eslint/ban-types": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
     "react-hooks/exhaustive-deps": "off",
-    "react-hooks/rules-of-hooks": "off"
+    "react-hooks/rules-of-hooks": "off",
+    "react/no-unescaped-entities": "off"
   },
   "settings": {
     "react": {

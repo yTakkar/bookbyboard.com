@@ -24,6 +24,9 @@ export enum AnalyticsEventType {
   NOMINATION_ADD = 'nomination_add',
   NOMINATION_UPDATE = 'nomination_update',
 
+  // vote
+  VOTE = 'vote',
+
   // general
   FEEDBACK = 'feedback',
 }

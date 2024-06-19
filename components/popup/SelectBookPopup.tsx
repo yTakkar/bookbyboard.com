@@ -42,7 +42,7 @@ const SelectBookPopup: React.FC<ISelectBookPopupProps> = props => {
       })
   }
 
-  const renderList = (book: IBookInfo) => {
+  const renderBook = (book: IBookInfo) => {
     return (
       <div key={book.id} className="cursor-pointer" onClick={() => setSelectedBook(book)}>
         <div className="flex items-center">
@@ -123,7 +123,7 @@ const SelectBookPopup: React.FC<ISelectBookPopupProps> = props => {
         ) : (
           <div>
             {books.map(book => (
-              <React.Fragment key={book.id}>{renderList(book)}</React.Fragment>
+              <React.Fragment key={book.id}>{renderBook(book)}</React.Fragment>
             ))}
           </div>
         )}

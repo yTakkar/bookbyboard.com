@@ -36,7 +36,7 @@ export const prepareBookInfo = (googleBookItem: GoogleBookItem): IBookInfo => {
   }
 }
 
-export const enlargeImage = (url: string, zoomType: BookZoomType) => {
+export const enlargeBookImage = (url: string, zoomType: BookZoomType) => {
   const zoomedUrl = url.replace(/zoom=\d/, `zoom=${zoomType}`)
   return zoomedUrl
 }

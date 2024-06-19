@@ -1,13 +1,17 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { GetStaticProps, NextPage } from 'next'
 import { IGlobalLayoutProps } from './_app'
-import { DesktopView, MobileView } from '../components/ResponsiveViews'
+import { MobileView } from '../components/ResponsiveViews'
 import Snackbar from '../components/header/Snackbar'
 import PageContainer from '../components/PageContainer'
-import BackTitle from '../components/BackTitle'
 import { prepareNominationPageSeo } from '../utils/seo/pages/vote'
 import ApplicationContext from '../components/ApplicationContext'
-import { getMonthNameFromId, getMonthYearIndexFromId, hasMemberNominated, hasMemberVoted } from '../utils/nomination'
+import {
+  getMemberVotedSuggestion,
+  getMonthNameFromId,
+  getMonthYearIndexFromId,
+  hasMemberNominated,
+} from '../utils/nomination'
 import Loader, { LoaderType } from '../components/loader/Loader'
 import CoreImage, { ImageSourceType } from '../components/core/CoreImage'
 import CoreButton, { CoreButtonSize, CoreButtonType } from '../components/core/CoreButton'
@@ -20,13 +24,17 @@ import { INominationDetail, INominationSuggestion } from '../interface/nominatio
 import { isEarlyMonth, isLateMonth, isMidMonth } from '../utils/date'
 import NotFound from '../components/NotFound'
 import appConfig from '../config/appConfig'
-import { PencilIcon } from '@heroicons/react/solid'
-import { enlargeImage } from '../utils/book'
+import { PencilIcon, ThumbUpIcon } from '@heroicons/react/solid'
+import { enlargeBookImage } from '../utils/book'
 import QuotesWrapper from '../components/QuotesWrapper'
-import { toastSuccess } from '../components/Toaster'
-import { vibrate } from '../utils/common'
+import { toastError, toastSuccess } from '../components/Toaster'
+import { isAdminUser, vibrate } from '../utils/common'
 import appAnalytics from '../lib/analytics/appAnalytics'
 import { AnalyticsEventType } from '../constants/analytics'
+import { InformationCircleIcon } from '@heroicons/react/solid'
+import CoreDivider from '../components/core/CoreDivider'
+import { CheckCircleIcon } from '@heroicons/react/solid'
+import Alert from '../components/modal/Alert'
 
 interface IProps extends IGlobalLayoutProps {
   pageData: {}
@@ -34,10 +42,18 @@ interface IProps extends IGlobalLayoutProps {
 
 const VotePage: NextPage<IProps> = () => {
   const applicationContext = useContext(ApplicationContext)
-  const { nomination, boardMember, methods } = applicationContext
+  const {
+    nomination,
+    boardMember,
+    methods,
+    device: { isDesktop },
+  } = applicationContext
 
   const hasNominated = hasMemberNominated(boardMember?.email || null, nomination)
-  const hasVoted = hasMemberVoted()
+  const votedSuggestion = getMemberVotedSuggestion(boardMember?.email || null, nomination)
+
+  const [selectedSuggestion, setSelectedSuggestion] = useState<INominationSuggestion | null>(null)
+  const [operationLoading, setOperationLoading] = useState(false)
 
   const handleNominate = () => {
     methods.togglePopup(PopupType.SELECT_BOOK, {
@@ -46,18 +62,19 @@ const VotePage: NextPage<IProps> = () => {
           suggestion => suggestion.boardMemberEmail === boardMember?.email
         )
 
-        const memberSuggestion: INominationSuggestion = {
-          book,
-          note,
-          boardMemberEmail: boardMember!.email,
-          voteCount: null,
-        }
-
         const suggestions = alreadyNominated
           ? nomination!.suggestions.map(suggestion =>
-              suggestion.boardMemberEmail === boardMember?.email ? memberSuggestion : suggestion
+              suggestion.boardMemberEmail === boardMember?.email ? { ...suggestion, book, note } : suggestion
             )
-          : [...nomination!.suggestions, memberSuggestion]
+          : [
+              ...nomination!.suggestions,
+              {
+                boardMemberEmail: boardMember!.email,
+                book,
+                note,
+                votes: null,
+              },
+            ]
 
         const newNomination: INominationDetail = {
           ...nomination!,
@@ -65,18 +82,104 @@ const VotePage: NextPage<IProps> = () => {
         }
 
         updateNomination(nomination!.id, newNomination)
+          .then(() => {
+            methods.dispatch({
+              type: 'UPDATE_NOMINATION',
+              payload: newNomination,
+            })
+            toastSuccess(alreadyNominated ? 'Nomination updated successfully' : 'Nomination submitted successfully')
+            vibrate()
+            appAnalytics.sendEvent({
+              action: alreadyNominated ? AnalyticsEventType.NOMINATION_UPDATE : AnalyticsEventType.NOMINATION_ADD,
+            })
+          })
+          .catch(() => {
+            toastError('Failed to submit nomination!')
+          })
+      },
+    })
+  }
+
+  const handleSubmitVote = () => {
+    setOperationLoading(true)
+
+    const newSuggestions: INominationSuggestion[] = nomination!.suggestions.map(suggestion => {
+      if (suggestion.boardMemberEmail === selectedSuggestion!.boardMemberEmail) {
+        return {
+          ...suggestion,
+          votes: suggestion.votes ? [...suggestion.votes, boardMember!.email] : [boardMember!.email],
+        }
+      }
+      return suggestion
+    })
+
+    const newNomination: INominationDetail = {
+      ...nomination!,
+      suggestions: newSuggestions,
+    }
+
+    updateNomination(nomination!.id, newNomination)
+      .then(() => {
         methods.dispatch({
           type: 'UPDATE_NOMINATION',
           payload: newNomination,
         })
-
-        toastSuccess(alreadyNominated ? 'Nomination updated successfully' : 'Nomination submitted successfully')
+        toastSuccess('Vote submitted successfully!')
         vibrate()
         appAnalytics.sendEvent({
-          action: alreadyNominated ? AnalyticsEventType.NOMINATION_UPDATE : AnalyticsEventType.NOMINATION_ADD,
+          action: AnalyticsEventType.VOTE,
         })
-      },
-    })
+        setSelectedSuggestion(null)
+      })
+      .catch(() => {
+        toastError('Failed to submit vote!')
+      })
+      .finally(() => {
+        setOperationLoading(false)
+      })
+  }
+
+  const renderSuggestion = (suggestion: INominationSuggestion) => {
+    const { book, note } = suggestion
+
+    return (
+      <div key={book.id} className="relative">
+        <div className="flex items-start max-w-[90%] md:max-w-none">
+          <div>
+            <CoreImage
+              url={enlargeBookImage(book.imageUrls.thumbnail, BookZoomType.SMALL)}
+              alt={`${book.title} on ${appConfig.global.app.name}`}
+              className="w-10 mr-2 mt-1"
+            />
+          </div>
+
+          <div className="flex-1">
+            <div className="font-semibold">{book.title}</div>
+            <div className="text-sm text-gray-600">{book.authors.join(', ')}</div>
+            {note ? (
+              <div className="text-sm mt-2">
+                <QuotesWrapper text={note} />
+              </div>
+            ) : (
+              <span className="text-sm text-gray-600 italic">No note provided</span>
+            )}
+          </div>
+        </div>
+        <div
+          className={classNames('flex items-center justify-end mt-2', {
+            'mt-0 absolute right-1 top-2': isDesktop,
+          })}>
+          <CoreButton
+            size={CoreButtonSize.SMALL}
+            type={CoreButtonType.SOLID_PRIMARY}
+            label="Select"
+            icon={ThumbUpIcon}
+            onClick={() => setSelectedSuggestion(suggestion)}
+          />
+        </div>
+        <div className="border-b border-gray-200 my-3" />
+      </div>
+    )
   }
 
   const renderContent = () => {
@@ -96,10 +199,13 @@ const VotePage: NextPage<IProps> = () => {
 
         return (
           <div>
-            <div className="flex flex-col items-center">
-              <div className="flex items-center text-lg lg:text-xl mt-5 mb-2 w-[320px] md:w-auto">
+            <div className="flex flex-col items-center md:w-[500px] m-auto">
+              <div className="flex items-center text-lg lg:text-xl mt-5 mb-4">
                 <span>
-                  Your nomination for {getMonthNameFromId(nomination!.id)} {getMonthYearIndexFromId(nomination.id).year}
+                  Your nomination for{' '}
+                  <span className="underline">
+                    {getMonthNameFromId(nomination!.id)} {getMonthYearIndexFromId(nomination.id).year}
+                  </span>
                 </span>
                 <span
                   className="flex items-center text-xs bg-brand-secondary text-white px-[6px] py-[2px] rounded-sm ml-2 cursor-pointer font-semibold"
@@ -113,21 +219,21 @@ const VotePage: NextPage<IProps> = () => {
 
               <div className="flex justify-center">
                 <CoreImage
-                  url={enlargeImage(book.imageUrls.thumbnail, BookZoomType.MEDIUM)}
+                  url={enlargeBookImage(book.imageUrls.thumbnail, BookZoomType.MEDIUM)}
                   alt={`${book.title} on ${appConfig.global.app.name}`}
-                  className="w-52"
+                  className="w-60"
                 />
               </div>
 
-              <div className="mt-3 mb-1 text-lg text-center">{book.title}</div>
+              <div className="mt-3 text-lg text-center">{book.title}</div>
               <div className="text-sm text-gray-600">{book.authors.join(', ')}</div>
 
-              {note && (
-                <QuotesWrapper
-                  className="mt-4 text-center"
-                  text={`This Privacy Policy describes Our policies and procedures on the collection, use and disclosure of Your information when You use the Service and tells You about Your privacy rights and how the law protects You.`}
-                />
-              )}
+              {note && <QuotesWrapper className="mt-4 text-center" text={note} />}
+
+              <div className="mt-6 text-center">
+                Thank you for nominating! Voting for next month's selected book will open after the 15th of this month,
+                once 50% of the current month has passed.
+              </div>
             </div>
           </div>
         )
@@ -142,8 +248,12 @@ const VotePage: NextPage<IProps> = () => {
             disableLazyload
           />
           <div className="text-center text-lg lg:text-xl mt-5 w-[320px] md:w-auto">
-            Submit your nomination for {getMonthNameFromId(nomination!.id)}
-            {getMonthYearIndexFromId(nomination.id).year} now!
+            Submit your nomination for{' '}
+            <span className="underline">
+              {getMonthNameFromId(nomination!.id)}
+              {getMonthYearIndexFromId(nomination.id).year}
+            </span>{' '}
+            now!
           </div>
           <div className="text-center mt-2 lg:mt-3">
             <CoreButton
@@ -158,11 +268,96 @@ const VotePage: NextPage<IProps> = () => {
     }
 
     if (isMidMonth()) {
-      return 'mid month'
+      if (votedSuggestion) {
+        const { book } = votedSuggestion
+
+        return (
+          <div className="flex flex-col items-center md:w-[500px] m-auto">
+            <div className="flex items-center text-lg lg:text-xl mt-5 mb-4">
+              Your vote was submitted for
+              <span className="underline ml-1">
+                {getMonthNameFromId(nomination!.id)} {getMonthYearIndexFromId(nomination.id).year}
+              </span>
+            </div>
+
+            <div className="flex justify-center">
+              <CoreImage
+                url={enlargeBookImage(book.imageUrls.thumbnail, BookZoomType.MEDIUM)}
+                alt={`${book.title} on ${appConfig.global.app.name}`}
+                className="w-60"
+              />
+            </div>
+
+            <div className="mt-3 text-lg text-center">{book.title}</div>
+            <div className="text-sm text-gray-600">{book.authors.join(', ')}</div>
+
+            <div className="mt-6 text-center">
+              Thank you for voting! The selected book will be announced at the start of next month. Stay tuned!
+            </div>
+          </div>
+        )
+      }
+
+      return (
+        <div>
+          <div>
+            <div className="text-lg lg:text-xl mt-5 mb-1 w-[320px] md:w-auto">
+              Vote for the next book for{' '}
+              <span className="underline">
+                {getMonthNameFromId(nomination!.id)} {getMonthYearIndexFromId(nomination.id).year}
+              </span>
+            </div>
+            <div className="text-gray-600 text-sm mt-1">
+              <InformationCircleIcon className="w-4 mr-1 inline -mt-[2px]" />
+              <span className="inline">{'You can vote for only one book per month. Choose wisely!'}</span>
+            </div>
+          </div>
+
+          <CoreDivider className="my-6" />
+
+          <div className="mt-4">
+            {nomination.suggestions.map(suggestion => (
+              <React.Fragment key={suggestion.boardMemberEmail}>{renderSuggestion(suggestion)}</React.Fragment>
+            ))}
+          </div>
+
+          {selectedSuggestion ? (
+            <Alert
+              dismissModal={() => setSelectedSuggestion(null)}
+              title="Submit your vote"
+              subTitle="Are you sure you about this? You can vote for only one book per month. Choose wisely!"
+              cta={{
+                primary: {
+                  show: true,
+                  label: 'Submit',
+                  icon: CheckCircleIcon,
+                  onClick: handleSubmitVote,
+                  loading: operationLoading,
+                },
+                secondary: {
+                  show: true,
+                  label: 'Cancel',
+                  onClick: () => setSelectedSuggestion(null),
+                },
+              }}
+            />
+          ) : null}
+        </div>
+      )
     }
 
     if (isLateMonth()) {
-      return 'late month'
+      if (!nomination.live) {
+        return 'Voting is locked'
+      }
+
+      const adminMember = isAdminUser(boardMember.email)
+
+      if (adminMember) {
+        return 'button to select the book randomly and lock the nomination'
+      }
+
+      return 'voting is locked'
     }
 
     return null
@@ -176,9 +371,9 @@ const VotePage: NextPage<IProps> = () => {
 
       <PageContainer>
         <div className="px-3">
-          <DesktopView>
+          {/* <DesktopView>
             <BackTitle title={'Back'} />
-          </DesktopView>
+          </DesktopView> */}
 
           <div className="mt-4">{renderContent()}</div>
         </div>

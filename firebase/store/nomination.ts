@@ -15,6 +15,7 @@ export const getNominationById = async (id: string): Promise<INominationDetail> 
     date: new Date().getTime(),
     suggestions: [],
     selectedBook: null,
+    live: true,
   }
 
   const docRef = doc(nominationCollection, id)

@@ -4,7 +4,7 @@ export interface INominationSuggestion {
   boardMemberEmail: string
   book: IBookInfo
   note: string | null
-  voteCount: number | null
+  votes: string[] | null // member emails
 }
 
 export interface INominationSelectedBook {
@@ -17,4 +17,5 @@ export interface INominationDetail {
   date: number // date mills
   suggestions: INominationSuggestion[]
   selectedBook: INominationSelectedBook | null
+  live: boolean
 }

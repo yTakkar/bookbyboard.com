@@ -11,6 +11,7 @@ interface IAlertProps {
     primary: {
       show: boolean
       label?: string
+      icon?: any
       loading?: boolean
       onClick?: () => void
     }
@@ -50,6 +51,7 @@ const Alert: React.FC<IAlertProps> = props => {
             loading={cta.primary.loading}
             onClick={cta.primary.onClick}
             disabled={cta.primary.loading}
+            icon={cta.primary.icon}
             className="ml-1"
           />
         ) : null}
