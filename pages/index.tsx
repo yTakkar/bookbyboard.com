@@ -6,6 +6,7 @@ import { prepareHomePageSeo } from '../utils/seo/pages/home'
 import PageContainer from '../components/PageContainer'
 import ApplicationContext from '../components/ApplicationContext'
 import { useRouter } from 'next/router'
+import NominationBanner from '../components/nominate/NominateBanner'
 
 interface IProps extends IGlobalLayoutProps {
   pageData: {}
@@ -21,7 +22,9 @@ const Home: NextPage<IProps> = () => {
 
   return (
     <PageContainer>
-      <div className=""></div>
+      <div className="">
+        <NominationBanner />
+      </div>
     </PageContainer>
   )
 }
