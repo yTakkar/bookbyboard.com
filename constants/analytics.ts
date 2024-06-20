@@ -27,6 +27,9 @@ export enum AnalyticsEventType {
   // vote
   VOTE = 'vote',
 
+  // book select
+  BOOK_SELECT = 'book_select',
+
   // general
   FEEDBACK = 'feedback',
 }

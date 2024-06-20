@@ -24,7 +24,7 @@ import { INominationDetail, INominationSuggestion } from '../interface/nominatio
 import { isEarlyMonth, isLateMonth, isMidMonth } from '../utils/date'
 import NotFound from '../components/NotFound'
 import appConfig from '../config/appConfig'
-import { PencilIcon, ThumbUpIcon } from '@heroicons/react/solid'
+import { LockClosedIcon, PencilIcon, ThumbUpIcon } from '@heroicons/react/solid'
 import { enlargeBookImage } from '../utils/book'
 import QuotesWrapper from '../components/QuotesWrapper'
 import { toastError, toastSuccess } from '../components/Toaster'
@@ -139,6 +139,41 @@ const VotePage: NextPage<IProps> = () => {
       })
   }
 
+  const handleBookSelect = () => {
+    const suggestionWithHighestVotes = nomination!.suggestions.reduce((prev, current) =>
+      prev.votes ? (prev.votes.length > (current.votes || [])!.length ? prev : current) : prev
+    )
+
+    const newNomination: INominationDetail = {
+      ...nomination!,
+      selectedBook: {
+        boardMemberEmail: suggestionWithHighestVotes.boardMemberEmail,
+      },
+      live: false,
+    }
+
+    setOperationLoading(true)
+
+    updateNomination(nomination!.id, newNomination)
+      .then(() => {
+        methods.dispatch({
+          type: 'UPDATE_NOMINATION',
+          payload: newNomination,
+        })
+        toastSuccess('Book selected successfully!')
+        vibrate()
+        appAnalytics.sendEvent({
+          action: AnalyticsEventType.BOOK_SELECT,
+        })
+      })
+      .catch(() => {
+        toastError('Failed to select book!')
+      })
+      .finally(() => {
+        setOperationLoading(false)
+      })
+  }
+
   const renderSuggestion = (suggestion: INominationSuggestion) => {
     const { book, note } = suggestion
 
@@ -245,13 +280,12 @@ const VotePage: NextPage<IProps> = () => {
             url={prepareImageUrl('/images/empty/empty-art.png', ImageSourceType.ASSET)}
             className={classNames('w-80 min-h-52')}
             alt="No content found"
-            disableLazyload
           />
           <div className="text-center text-lg lg:text-xl mt-5 w-[320px] md:w-auto">
-            Submit your nomination for{' '}
+            Submit your nomination for
             <span className="underline">
-              {getMonthNameFromId(nomination!.id)}
-              {getMonthYearIndexFromId(nomination.id).year}
+              {' '}
+              {getMonthNameFromId(nomination!.id)} {getMonthYearIndexFromId(nomination.id).year}
             </span>{' '}
             now!
           </div>
@@ -347,17 +381,55 @@ const VotePage: NextPage<IProps> = () => {
     }
 
     if (isLateMonth()) {
-      if (!nomination.live) {
-        return 'Voting is locked'
-      }
-
       const adminMember = isAdminUser(boardMember.email)
 
-      if (adminMember) {
-        return 'button to select the book randomly and lock the nomination'
+      if (adminMember && nomination.live) {
+        return (
+          <div className="flex flex-col items-center justify-center mt-20  md:w-[500px] m-auto">
+            <CoreImage
+              url={prepareImageUrl('/images/empty/empty-glass.svg', ImageSourceType.ASSET)}
+              className={classNames('w-80 min-h-52')}
+              alt="No content found"
+            />
+            <div className="text-center text-lg lg:text-xl mt-5 w-[320px] md:w-auto">
+              Looks like you are an admin. You can now pick the selected book for{' '}
+              <span className="underline">
+                {' '}
+                {getMonthNameFromId(nomination!.id)} {getMonthYearIndexFromId(nomination.id).year}
+              </span>
+              . The book with the most votes will be selected automatically.
+            </div>
+            <div className="text-center mt-2 lg:mt-3">
+              <CoreButton
+                label="Select now"
+                size={CoreButtonSize.MEDIUM}
+                type={CoreButtonType.SOLID_PRIMARY}
+                onClick={handleBookSelect}
+                icon={LockClosedIcon}
+                loading={operationLoading}
+              />
+            </div>
+          </div>
+        )
       }
 
-      return 'voting is locked'
+      return (
+        <div className="flex flex-col items-center justify-center mt-20  md:w-[500px] m-auto">
+          <CoreImage
+            url={prepareImageUrl('/images/empty/empty-glass.svg', ImageSourceType.ASSET)}
+            className={classNames('w-80 min-h-52')}
+            alt="No content found"
+          />
+          <div className="text-center text-lg lg:text-xl mt-5 w-[320px] md:w-auto">
+            Voting is locked for{' '}
+            <span className="underline">
+              {' '}
+              {getMonthNameFromId(nomination!.id)} {getMonthYearIndexFromId(nomination.id).year}
+            </span>
+            . The selected book will be announced at the start of next month. Stay tuned!
+          </div>
+        </div>
+      )
     }
 
     return null
@@ -371,10 +443,6 @@ const VotePage: NextPage<IProps> = () => {
 
       <PageContainer>
         <div className="px-3">
-          {/* <DesktopView>
-            <BackTitle title={'Back'} />
-          </DesktopView> */}
-
           <div className="mt-4">{renderContent()}</div>
         </div>
       </PageContainer>

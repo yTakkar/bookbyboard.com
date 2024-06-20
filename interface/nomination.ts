@@ -8,8 +8,7 @@ export interface INominationSuggestion {
 }
 
 export interface INominationSelectedBook {
-  id: string
-  book: IBookInfo
+  boardMemberEmail: string
 }
 
 export interface INominationDetail {
