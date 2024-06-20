@@ -176,9 +176,9 @@ module.exports = {
       pink: colors.pink,
       rose: colors.rose,
       brand: {
-        primary: '#ce2e35',
-        primaryLight: 'rgba(206, 46, 53, 0.9)', // lighter version of brand.primary
-        secondary: '#05c7f6',
+        primary: '#4D2557',
+        primaryLight: 'rgba(77, 37, 87, 0.9)', // lighter version of brand.primary
+        secondary: '#D786AF',
         logo: '#f4b52e',
       },
       typo: {

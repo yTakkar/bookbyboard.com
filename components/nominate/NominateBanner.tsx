@@ -36,7 +36,7 @@ function NominationBanner({}: INominationBannerProps) {
 
   return (
     <CoreLink
-      className="bg-tautara text-white w-full shadow-md md:shadow-headerUserAddress p-3 text-sm flex justify-center cursor-pointer"
+      className="bg-brand-secondary text-white w-full shadow p-3 text-sm flex justify-center cursor-pointer"
       url={getNominationPageUrl()}>
       <span className="">{label}</span>
       {/* <span
