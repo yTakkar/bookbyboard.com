@@ -1,0 +1,13 @@
+.moreContent {
+  @apply relative;
+
+  & .moreContent-text {
+    @apply overflow-hidden h-40;
+  }
+
+  &::after {
+    content: "";
+    @apply absolute bottom-0 left-0 h-12 w-full;
+    background: linear-gradient(180deg,hsla(0,0%,100%,0),hsla(0,0%,100%,.93) 62.6%,#fff);
+  }
+}

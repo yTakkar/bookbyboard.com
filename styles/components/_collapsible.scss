@@ -1,0 +1,12 @@
+// Accordion globals
+.Collapsible__trigger {
+  & .collapsible-chevron-icon {
+    @apply transition-transform;
+  }
+
+  &.is-open {
+    & .collapsible-chevron-icon {
+      @apply transform rotate-180;
+    }
+  } 
+}

@@ -52,3 +52,19 @@ export const updateBoardMember = async (email: string, partialMemberInfo: Partia
   await updateDoc(doc(boardMemberCollection, email), partialMemberInfo as any)
   return null
 }
+
+export const getBulkUsers = async (emails: string[]) => {
+  const profileInfoMap: Record<string, IBoardMemberInfo> = {}
+
+  if (emails.length === 0) {
+    return profileInfoMap
+  }
+
+  const q = query(boardMemberCollection, where('email', 'in', emails))
+  const querySnapshot = await getDocs(q)
+  querySnapshot.docs.forEach(doc => {
+    const data = doc.data() as IBoardMemberInfo
+    profileInfoMap[data.email] = data
+  })
+  return profileInfoMap
+}

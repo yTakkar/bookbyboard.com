@@ -678,6 +678,7 @@ module.exports = {
       fit: 'fit-content',
     }),
     maxWidth: ({ theme, breakpoints }) => ({
+      ...theme('width'),
       none: 'none',
       0: '0rem',
       xs: '20rem',

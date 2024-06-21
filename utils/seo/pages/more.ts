@@ -1,10 +1,10 @@
 import { IAppSeoProps } from '../../../components/seo/AppSeo'
-import { prepareHomePageSeo } from './home'
+import { prepareBasePageSeo } from './home'
 
 // http://localhost:3000/more
 export const prepareMorePageSeo = (): IAppSeoProps => {
   return {
-    ...prepareHomePageSeo(),
+    ...prepareBasePageSeo(),
     noIndex: true,
     noFollow: true,
   }

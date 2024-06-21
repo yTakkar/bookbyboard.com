@@ -90,6 +90,7 @@ const appConfig = {
   build: {
     pageRevalidateTimeInSec: {
       MEMBER: 30 * 60,
+      HOME: 30 * 60,
     },
     initialPageBuildCount: {
       MEMBER: 100,

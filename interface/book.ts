@@ -13,6 +13,7 @@ export interface IBookInfo {
   publisher: string
   publishedDate: string
   language: string
+  categories: string[]
 }
 
 export enum BookZoomType {

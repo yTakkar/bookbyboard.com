@@ -175,10 +175,10 @@ const VotePage: NextPage<IProps> = () => {
   }
 
   const renderSuggestion = (suggestion: INominationSuggestion) => {
-    const { book, note } = suggestion
+    const { boardMemberEmail, book, note } = suggestion
 
     return (
-      <div key={book.id} className="relative">
+      <div key={boardMemberEmail} className="relative">
         <div className="flex items-start max-w-[90%] md:max-w-none">
           <div>
             <CoreImage

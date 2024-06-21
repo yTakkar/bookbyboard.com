@@ -1,6 +1,6 @@
 import { INominationDetail, INominationSuggestion } from '../interface/nomination'
 
-export const getNominationId = () => {
+export const getNextNominationId = () => {
   const currentMonth = new Date().getUTCMonth()
   const currentYear = new Date().getUTCFullYear()
 
@@ -8,6 +8,12 @@ export const getNominationId = () => {
   const nextYear = nextMonth === 0 ? currentYear + 1 : currentYear
 
   return `${nextMonth}-${nextYear}`
+}
+
+export const getCurrentNominationId = () => {
+  const currentMonth = new Date().getUTCMonth()
+  const currentYear = new Date().getUTCFullYear()
+  return `${currentMonth}-${currentYear}`
 }
 
 export const getMonthYearIndexFromId = (id: string): { month: number; year: number } => {

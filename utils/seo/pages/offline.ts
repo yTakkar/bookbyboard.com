@@ -1,9 +1,9 @@
 import { IAppSeoProps } from '../../../components/seo/AppSeo'
-import { prepareHomePageSeo } from './home'
+import { prepareBasePageSeo } from './home'
 
 export const prepareOfflinePageSeo = (): IAppSeoProps => {
   return {
-    ...prepareHomePageSeo(),
+    ...prepareBasePageSeo(),
     noIndex: true,
     noFollow: true,
   }

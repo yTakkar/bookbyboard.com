@@ -33,6 +33,7 @@ export const prepareBookInfo = (googleBookItem: GoogleBookItem): IBookInfo => {
     publisher: volumeInfo.publisher || '',
     publishedDate: volumeInfo.publishedDate || '',
     language: volumeInfo.language || '',
+    categories: volumeInfo.categories || [],
   }
 }
 

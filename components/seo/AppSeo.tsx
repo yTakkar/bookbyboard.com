@@ -7,7 +7,7 @@ import {
 } from '../../utils/seo/structuredData'
 import { SOCIAL_SHARE_BANNERS } from '../../constants/constants'
 import appConfig from '../../config/appConfig'
-import { prepareHomePageSeo } from '../../utils/seo/pages/home'
+import { prepareBasePageSeo } from '../../utils/seo/pages/home'
 import { getRandomArrayItem } from '../../utils/array'
 
 export interface IAppSeoProps {
@@ -42,7 +42,7 @@ const AppSeo: React.FC<IAppSeoProps> = props => {
     // imageUrl: _imageUrl,
   } = props
 
-  const defaultSeoData = prepareHomePageSeo()
+  const defaultSeoData = prepareBasePageSeo()
 
   const title = _title || defaultSeoData.title
   const description = _description || defaultSeoData.description
