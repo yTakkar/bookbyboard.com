@@ -30,6 +30,8 @@ export enum AnalyticsEventType {
   // book select
   BOOK_SELECT = 'book_select',
 
+  SELECTED_BOOK_COPY_URL = 'selected_book_copy_url',
+
   // general
   FEEDBACK = 'feedback',
 }

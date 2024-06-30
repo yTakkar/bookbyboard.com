@@ -6,7 +6,7 @@ import { prepareHomePageSeo } from '../utils/seo/pages/home'
 import PageContainer from '../components/PageContainer'
 import { useRouter } from 'next/router'
 import NominationBanner from '../components/nominate/NominateBanner'
-import SelectedBook from '../components/SelectedBook'
+import SelectedBook, { SelectedBookSourceType } from '../components/SelectedBook'
 import { getNominationById, getNominationProfileInfoMap } from '../firebase/store/nomination'
 import { getCurrentNominationId } from '../utils/nomination'
 import { INominationDetail } from '../interface/nomination'
@@ -36,7 +36,7 @@ const Home: NextPage<IProps> = props => {
     <PageContainer>
       <div className="">
         <NominationBanner />
-        <SelectedBook nomination={nomination} profileInfoMap={profileInfoMap} />
+        <SelectedBook source={SelectedBookSourceType.HOME} nomination={nomination} profileInfoMap={profileInfoMap} />
       </div>
     </PageContainer>
   )

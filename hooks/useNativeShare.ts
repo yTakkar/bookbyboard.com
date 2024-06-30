@@ -12,7 +12,7 @@ interface IProps {
 const useNativeShare = (props: IProps) => {
   const { onShareFail } = props
 
-  const [shouldshowNativeShare, toggleNativeShare] = useState(false)
+  const [shouldShowNativeShare, toggleNativeShare] = useState(false)
 
   const {
     device: { isMobile },
@@ -46,7 +46,7 @@ const useNativeShare = (props: IProps) => {
   }
 
   return {
-    shouldshowNativeShare,
+    shouldShowNativeShare,
     handleNativeShare,
   }
 }

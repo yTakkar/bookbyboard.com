@@ -18,3 +18,7 @@ export interface INominationDetail {
   selectedBook: INominationSelectedBook | null
   live: boolean
 }
+
+export interface IListNominationsParams {
+  limit: number
+}

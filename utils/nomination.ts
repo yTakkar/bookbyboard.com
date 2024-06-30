@@ -54,3 +54,13 @@ export const getMemberVotedSuggestion = (
 
   return foundSuggestions[0] || null
 }
+
+export const getFreshNomination = (id: string): INominationDetail => {
+  return {
+    id: id,
+    date: new Date().getTime(),
+    suggestions: [],
+    selectedBook: null,
+    live: true,
+  }
+}

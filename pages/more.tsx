@@ -4,10 +4,7 @@ import {
   ShieldCheckIcon,
   LogoutIcon,
   LoginIcon,
-  BookmarkIcon,
   HomeIcon,
-  SpeakerphoneIcon,
-  FireIcon,
   InformationCircleIcon,
 } from '@heroicons/react/outline'
 import { ChevronRightIcon } from '@heroicons/react/solid'
@@ -46,18 +43,11 @@ const MorePage: NextPage<IProps> = () => {
     },
     {
       label: 'Profile',
-      subTitle: 'Manage your profile and lists',
+      subTitle: 'Manage your profile and bio',
       url: getHomePageUrl(),
       icon: UserIcon,
       show: !!user,
     },
-    // // {
-    // //   label: 'Saved Recommendations',
-    // //   subTitle: 'Manage your saved recommendations',
-    // //   url: getSavedRecommendationsPageUrl(),
-    // //   icon: BookmarkIcon,
-    // //   show: !!user,
-    // // },
     {
       label: 'Login',
       subTitle: 'Login to sync your data',
@@ -70,31 +60,17 @@ const MorePage: NextPage<IProps> = () => {
         })
       },
     },
-    // {
-    //   label: 'Featured Lists',
-    //   subTitle: 'Check out our handpicked lists',
-    //   url: getFeaturedListsPageUrl(),
-    //   icon: SpeakerphoneIcon,
-    //   show: true,
-    // },
-    // {
-    //   label: 'Popular recommendations',
-    //   subTitle: 'Check out the recommendations that are making waves',
-    //   url: getMostPopularRecommendationsPageUrl(),
-    //   icon: FireIcon,
-    //   show: true,
-    // },
     {
       label: 'Privacy Policy',
       url: getPrivacyPageUrl(),
       icon: DocumentTextIcon,
-      show: !user,
+      show: true,
     },
     {
       label: 'Terms & Conditions',
       url: getTnCPageUrl(),
       icon: ShieldCheckIcon,
-      show: !user,
+      show: true,
     },
     {
       label: 'About Us',

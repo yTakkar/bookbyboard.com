@@ -1,10 +1,9 @@
 const app = {
   name: 'BookByBoard',
   shortName: 'BookByBoard',
-  tagLine: 'Empower Your Recommendations, Elevate Your Influence with MyLikes',
-  title: 'MyLikes - Share Recommendations, Discover Passions, and Build Community',
+  title: 'BookByBoard - Expert-Selected Books Every Month',
   description:
-    'The ultimate platform to share your recommendations, expertise, and discoveries with the world. Curate personalized lists, add your favourite recommendations and engage with a vibrant community. Start sharing your passions today!',
+    'Discover expert-selected books every month on BookByBoard. Join our community of passionate readers and explore the best books of the month.',
   key: 'BBB', // should be uppercase
 }
 
@@ -91,9 +90,11 @@ const appConfig = {
     pageRevalidateTimeInSec: {
       MEMBER: 30 * 60,
       HOME: 30 * 60,
+      SELECTED_BOOK: 2 * 60 * 60,
     },
     initialPageBuildCount: {
       MEMBER: 100,
+      SELECTED_BOOK: 100,
     },
   },
   integrations: {

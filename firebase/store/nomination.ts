@@ -1,7 +1,8 @@
-import { collection, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
+import { collection, doc, getDoc, getDocs, limit, query, setDoc, updateDoc, where } from 'firebase/firestore'
 import firebaseStore from '.'
-import { INominationDetail } from '../../interface/nomination'
+import { IListNominationsParams, INominationDetail } from '../../interface/nomination'
 import { getBulkUsers } from './boardMember'
+import { getFreshNomination } from '../../utils/nomination'
 
 // Document reference: email
 export const nominationCollection = collection(firebaseStore, 'nomination')
@@ -14,16 +15,10 @@ export const getNominationById = async (
   id: string,
   options: { createIfNotFound: boolean }
 ): Promise<INominationDetail> => {
-  const freshNomination: INominationDetail = {
-    id: id,
-    date: new Date().getTime(),
-    suggestions: [],
-    selectedBook: null,
-    live: true,
-  }
-
   const docRef = doc(nominationCollection, id)
   const docSnap = await getDoc(docRef)
+
+  const freshNomination = getFreshNomination(id)
 
   // If the document does not exist, create a new one
   if (!docSnap.exists() && options.createIfNotFound) {
@@ -47,4 +42,10 @@ export const getNominationProfileInfoMap = async (nomination: INominationDetail)
     uniqueUserEmails.add(suggestion.boardMemberEmail)
   })
   return getBulkUsers(Array.from(uniqueUserEmails))
+}
+
+export const listNominations = async (params: IListNominationsParams): Promise<INominationDetail[]> => {
+  const q = query(nominationCollection, limit(params.limit), where('live', '==', false))
+  const querySnapshot = await getDocs(q)
+  return querySnapshot.docs.map(doc => doc.data() as INominationDetail)
 }

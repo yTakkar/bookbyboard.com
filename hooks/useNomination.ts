@@ -17,7 +17,7 @@ function useNomination() {
   const fetchNominationDetails = async () => {
     try {
       const data = await getNominationById(getNextNominationId(), {
-        createIfNotFound: true,
+        createIfNotFound: false,
       })
       setNomination(data)
     } catch (e) {

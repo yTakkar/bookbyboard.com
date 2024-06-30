@@ -7,29 +7,40 @@ import { BookZoomType } from '../interface/book'
 import appConfig from '../config/appConfig'
 import { getMonthNameFromId, getMonthYearIndexFromId } from '../utils/nomination'
 import MoreContent from './MoreContent'
-import { InformationCircleIcon } from '@heroicons/react/solid'
+import { InformationCircleIcon, SpeakerphoneIcon, StarIcon } from '@heroicons/react/solid'
 import dayjs from 'dayjs'
 import { DesktopView, MobileView } from './ResponsiveViews'
 import CoreDivider from './core/CoreDivider'
 import QuotesWrapper from './QuotesWrapper'
 import CoreLink from './core/CoreLink'
-import { getMemberPageUrl } from '../utils/routes'
-import { pluralize } from '../utils/common'
+import { getHomePageUrl, getMemberPageUrl, getSelectedBookPageUrl } from '../utils/routes'
+import { copyToClipboard, pluralize } from '../utils/common'
 import Collapsible from './Collapsible'
-import { ChevronDownIcon } from '@heroicons/react/outline'
+import { ChevronDownIcon, LinkIcon, ShareIcon } from '@heroicons/react/outline'
 import { IBoardMemberInfo } from '../interface/boardMember'
+import useNativeShare from '../hooks/useNativeShare'
+import { AnalyticsEventType } from '../constants/analytics'
+import appAnalytics from '../lib/analytics/appAnalytics'
+import { toastSuccess } from './Toaster'
+import Tooltip from './Tooltip'
 
 const localizedFormat = require('dayjs/plugin/localizedFormat')
 
 dayjs.extend(localizedFormat)
 
+export enum SelectedBookSourceType {
+  HOME = 'HOME',
+  MONTHLY = 'MONTHLY',
+}
+
 interface ISelectedBookProps {
+  source: SelectedBookSourceType
   nomination: INominationDetail
   profileInfoMap: Record<string, IBoardMemberInfo>
 }
 
 const SelectedBook: React.FC<ISelectedBookProps> = props => {
-  const { nomination, profileInfoMap } = props
+  const { source, nomination, profileInfoMap } = props
 
   const selectedSuggestion = nomination?.suggestions.find(
     s => s.boardMemberEmail === nomination.selectedBook?.boardMemberEmail
@@ -39,7 +50,30 @@ const SelectedBook: React.FC<ISelectedBookProps> = props => {
   const selectedBoardMember = profileInfoMap[selectedSuggestion.boardMemberEmail]
 
   const monthName = getMonthNameFromId(nomination!.id)
-  const { year } = getMonthYearIndexFromId(nomination.id)
+  const { month, year } = getMonthYearIndexFromId(nomination.id)
+
+  const shareUrl =
+    source === SelectedBookSourceType.HOME
+      ? `${appConfig.global.baseUrl}${getHomePageUrl()}`
+      : `${appConfig.global.baseUrl}${getSelectedBookPageUrl(month, year)}`
+
+  const shareText = `${book.title} - Book of the Month | ${appConfig.global.app.name}`
+
+  const handleURLCopy = () => {
+    copyToClipboard(shareUrl)
+    appAnalytics.sendEvent({
+      action: AnalyticsEventType.SELECTED_BOOK_COPY_URL,
+      extra: {
+        shareText,
+        shareUrl,
+      },
+    })
+    toastSuccess('Link copied to clipboard!')
+  }
+
+  const { shouldShowNativeShare, handleNativeShare } = useNativeShare({
+    onShareFail: handleURLCopy,
+  })
 
   const renderSuggestion = (suggestion: INominationSuggestion) => {
     const boardMember = profileInfoMap[suggestion.boardMemberEmail]
@@ -86,8 +120,50 @@ const SelectedBook: React.FC<ISelectedBookProps> = props => {
     )
   }
 
+  const renderShareIcon = () => {
+    return (
+      <div className="cursor-pointer">
+        {shouldShowNativeShare ? (
+          <Tooltip content={'Share'} disableOnMobile>
+            <ShareIcon
+              className="w-4 md:w-5"
+              onClick={() => {
+                handleNativeShare({
+                  text: shareText,
+                  url: shareUrl,
+                })
+              }}
+            />
+          </Tooltip>
+        ) : (
+          <Tooltip content={'Copy link'} disableOnMobile>
+            <LinkIcon
+              className="w-4 md:w-5"
+              onClick={() => {
+                handleURLCopy()
+              }}
+            />
+          </Tooltip>
+        )}
+      </div>
+    )
+  }
+
   return (
     <div className="px-3">
+      <div className="flex items-center mb-4 justify-between">
+        <div className="flex items-center">
+          <StarIcon className="w-5 md:w-6 text-yellow-500 mr-1" />
+          <div className="text-brand-primary md:text-lg">
+            <span className="underline">
+              {monthName} {year}'s
+            </span>{' '}
+            <span>selected book</span>
+          </div>
+        </div>
+        <div className="ml-2">{renderShareIcon()}</div>
+      </div>
+
       <div className="md:my-8 ">
         <div
           className={classNames('font-domaine-bold font-bold mb-1', [
@@ -102,7 +178,9 @@ const SelectedBook: React.FC<ISelectedBookProps> = props => {
       </div>
 
       <div className="md:flex">
-        <div className="flex justify-center mt-8 md:mt-0">
+        <div className="mt-8 md:mt-0" />
+        {/* <div className="flex justify-end">{renderShareIcon()}</div> */}
+        <div className="flex justify-center">
           <CoreImage
             url={enlargeBookImage(book.imageUrls.thumbnail, BookZoomType.MEDIUM)}
             alt={`${book.title} is the selected book of ${monthName} ${year} on ${appConfig.global.app.name}`}

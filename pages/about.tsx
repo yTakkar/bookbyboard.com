@@ -36,12 +36,22 @@ const AboutPage: NextPage<IProps> = () => {
           <div className="mt-4">
             <div className="html-body">
               <p>
-                {`In the closing months of 2022, a simple idea led to the creation of MyLikes. I wanted to share my
-                classical music playlist with friends, giving them a chance to engage with it, and most importantly, to
-                track how each recommendation performed.`}
+                <span className="font-bold mb-1 block">BookByBoard</span>
+                {`Our mission is simple: to make it easier for readers to discover books that they might not find otherwise. We strive to bring a sense of community and excitement to the process of selecting and sharing great reads. `}
               </p>
 
               <p>
+                <span className="font-bold mb-1 block">Why Us?</span>
+                {`Our book selections are not algorithm-driven but are carefully curated by real people who love books just as much as you do.`}
+              </p>
+
+              <p>
+                <span className="font-bold mb-1 block">How It Works?</span>
+                {`Every month, our board members, who are passionate readers from various backgrounds, propose their favorite books. These suggestions are then put to a vote. The book with the most votes becomes our "Book of the Month," which we feature prominently on our platform.`}
+              </p>
+
+              <p>
+                <span className="font-bold mb-1 block">Contact Us</span>
                 {`Please don't hesitate to `}
                 <CoreLink url={`mailto:${mail}`} isExternal>
                   reach out

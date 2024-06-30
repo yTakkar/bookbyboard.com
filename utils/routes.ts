@@ -33,3 +33,7 @@ export const getMemberEditPageUrl = () => {
 export const getNominationPageUrl = () => {
   return '/nomination'
 }
+
+export const getSelectedBookPageUrl = (month: number, year: number) => {
+  return `/selected-book/${month}-${year}`
+}

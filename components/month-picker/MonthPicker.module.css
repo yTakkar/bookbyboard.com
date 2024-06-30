@@ -1,0 +1,64 @@
+.month:hover {
+  border-radius: 7px;
+  background-color: #f4f4f4;
+}
+
+.month {
+  padding: 6px 12px;
+  border: solid 1px transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #000;
+  font-size: 16px;
+}
+
+.active {
+  border-radius: 7px;
+  background: #4ea3983e !important;
+}
+
+.yearContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-bottom: 1rem;
+  margin-top: 0;
+  width: 100%;
+}
+
+.monthsContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 6px;
+}
+
+.pickerContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  border-radius: 7px;
+  border: 1px solid rgb(0 0 0 / 35%);
+  color: #000;
+  position: absolute;
+  box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.1);
+  background: #fff;
+  width: 200px;
+  top: 45px;
+}
+
+.button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+.bold1 {
+  font-size: 1rem;
+}
+
+.pickerContainer::selection {
+  background-color: transparent;
+}
