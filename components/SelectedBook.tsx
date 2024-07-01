@@ -125,7 +125,7 @@ const SelectedBook: React.FC<ISelectedBookProps> = props => {
     return (
       <div className="cursor-pointer">
         {shouldShowNativeShare ? (
-          <Tooltip content={'Share'}>
+          <Tooltip content={'Share'} disableOnMobile>
             <ShareIcon
               className="w-[18px] md:w-5"
               onClick={() => {
@@ -137,8 +137,8 @@ const SelectedBook: React.FC<ISelectedBookProps> = props => {
             />
           </Tooltip>
         ) : (
-          <Tooltip content={'Copy link'}>
-            <LinkIcon
+          <Tooltip content={'Copy link'} disableOnMobile>
+            <ShareIcon
               className="w-[18px] md:w-5"
               onClick={() => {
                 handleURLCopy()

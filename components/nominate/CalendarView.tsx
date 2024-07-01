@@ -32,7 +32,7 @@ function CalendarView(props: IProps) {
 
   return (
     <div className="relative" ref={ref}>
-      <Tooltip content={'View past book selections'}>
+      <Tooltip content={'View past book selections'} disableOnMobile>
         <CalendarIcon
           className="w-[18px] md:w-5 mr-3 cursor-pointer outline-0"
           onClick={() => setIsPickerOpen(!isPickerOpen)}
