@@ -16,6 +16,12 @@ export const getCurrentNominationId = () => {
   return `${currentMonth}-${currentYear}`
 }
 
+export const getPreviousNominationId = () => {
+  const currentMonth = new Date().getUTCMonth() - 1
+  const currentYear = new Date().getUTCFullYear()
+  return `${currentMonth}-${currentYear}`
+}
+
 export const getMonthYearIndexFromId = (id: string): { month: number; year: number } => {
   const [month, year] = id.split('-')
   return { month: parseInt(month), year: parseInt(year) }

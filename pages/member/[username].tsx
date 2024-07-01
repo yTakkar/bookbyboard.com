@@ -17,6 +17,7 @@ import useScrollToTop from '../../hooks/useScrollToTop'
 import CoreLink from '../../components/core/CoreLink'
 import { IBoardMemberInfo } from '../../interface/boardMember'
 import { prepareMemberPageSeo } from '../../utils/seo/pages/member'
+import NominationBanner from '../../components/nominate/NominateBanner'
 
 interface IProps extends IGlobalLayoutProps {
   pageData: {
@@ -75,6 +76,8 @@ const ProfilePage: NextPage<IProps> = (props: IProps) => {
 
   return (
     <PageContainer>
+      <NominationBanner />
+
       <div className="p-4 py-6">
         <div className="bg-whit flex flex-col justify-center items-center lg:flex-row lg:justify-normal">
           <div

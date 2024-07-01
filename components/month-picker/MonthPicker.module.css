@@ -47,7 +47,8 @@
   box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.1);
   background: #fff;
   width: 200px;
-  top: 45px;
+  margin-top: 5px;
+  right: 10px;
 }
 
 .button {

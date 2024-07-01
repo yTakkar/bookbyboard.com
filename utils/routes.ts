@@ -34,6 +34,6 @@ export const getNominationPageUrl = () => {
   return '/nomination'
 }
 
-export const getSelectedBookPageUrl = (month: number, year: number) => {
-  return `/selected-book/${month}-${year}`
+export const getSelectedBookPageUrl = (id: string) => {
+  return `/selected-book/${id}`
 }

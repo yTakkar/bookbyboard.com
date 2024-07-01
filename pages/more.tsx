@@ -6,6 +6,8 @@ import {
   LoginIcon,
   HomeIcon,
   InformationCircleIcon,
+  StatusOnlineIcon,
+  CalendarIcon,
 } from '@heroicons/react/outline'
 import { ChevronRightIcon } from '@heroicons/react/solid'
 import { GetStaticProps, NextPage } from 'next'
@@ -15,7 +17,15 @@ import classnames from 'classnames'
 import PageContainer from '../components/PageContainer'
 import CoreLink from '../components/core/CoreLink'
 import { toastSuccess } from '../components/Toaster'
-import { getAboutPageUrl, getHomePageUrl, getPrivacyPageUrl, getMemberPageUrl, getTnCPageUrl } from '../utils/routes'
+import {
+  getAboutPageUrl,
+  getHomePageUrl,
+  getPrivacyPageUrl,
+  getMemberPageUrl,
+  getTnCPageUrl,
+  getNominationPageUrl,
+  getSelectedBookPageUrl,
+} from '../utils/routes'
 import { MobileView } from '../components/ResponsiveViews'
 import Snackbar from '../components/header/Snackbar'
 import ApplicationContext from '../components/ApplicationContext'
@@ -23,6 +33,7 @@ import { useRouter } from 'next/router'
 import { prepareMorePageSeo } from '../utils/seo/pages/more'
 import CoreImage from '../components/core/CoreImage'
 import { APP_LOGO } from '../constants/constants'
+import { getPreviousNominationId } from '../utils/nomination'
 
 interface IProps extends IGlobalLayoutProps {
   pageData: {}
@@ -43,9 +54,16 @@ const MorePage: NextPage<IProps> = () => {
     },
     {
       label: 'Profile',
-      subTitle: 'Manage your profile and bio',
+      subTitle: 'Manage your profile',
       url: getHomePageUrl(),
       icon: UserIcon,
+      show: !!user,
+    },
+    {
+      label: 'Live nomination',
+      subTitle: `Nominate & vote for this month's selected book`,
+      url: getNominationPageUrl(),
+      icon: StatusOnlineIcon,
       show: !!user,
     },
     {
@@ -59,6 +77,13 @@ const MorePage: NextPage<IProps> = () => {
           router.push(getMemberPageUrl(userInfo.username))
         })
       },
+    },
+    {
+      label: 'Past selections',
+      subTitle: `Check out past book selections`,
+      url: getSelectedBookPageUrl(getPreviousNominationId()),
+      icon: CalendarIcon,
+      show: true,
     },
     {
       label: 'Privacy Policy',

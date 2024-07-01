@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-import React, { useRef, useState } from 'react'
+import React from 'react'
 import { IGlobalLayoutProps } from '../_app'
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import PageContainer from '../../components/PageContainer'
@@ -11,14 +11,10 @@ import { INominationDetail } from '../../interface/nomination'
 import PageLoader from '../../components/loader/PageLoader'
 import { IBoardMemberInfo } from '../../interface/boardMember'
 import { INITIAL_PAGE_BUILD_COUNT, PAGE_REVALIDATE_TIME } from '../../constants/constants'
-import { get404PageUrl, getSelectedBookPageUrl } from '../../utils/routes'
+import { get404PageUrl } from '../../utils/routes'
 import { MobileView } from '../../components/ResponsiveViews'
 import Snackbar from '../../components/header/Snackbar'
 import { prepareSelectedBookPageSeo } from '../../utils/seo/pages/selectedBook'
-import { getMonthNameFromId, getMonthYearIndexFromId } from '../../utils/nomination'
-import { MonthInput } from '../../components/month-picker/MonthInput'
-import { MonthPicker } from '../../components/month-picker/MonthPicker'
-import useOutsideClick from '../../hooks/useOutsideClick'
 
 interface IProps extends IGlobalLayoutProps {
   pageData: {
@@ -38,22 +34,6 @@ const SelectedBookPage: NextPage<IProps> = props => {
     pageData: { nomination, profileInfoMap },
   } = props
 
-  const { month: _month, year } = getMonthYearIndexFromId(nomination.id)
-
-  // month picker starts from 1
-  const month = _month + 1
-
-  const [isPickerOpen, setIsPickerOpen] = useState(false)
-
-  const ref = useRef(null)
-
-  useOutsideClick({
-    ref,
-    onOutsideClick: () => {
-      setIsPickerOpen(false)
-    },
-  })
-
   return (
     <div>
       <MobileView>
@@ -66,36 +46,6 @@ const SelectedBookPage: NextPage<IProps> = props => {
         </DesktopView> */}
 
         <div className="mt-4">
-          <div className="flex justify-start relative px-3">
-            <div ref={ref}>
-              <MonthInput
-                selected={{
-                  month,
-                  year,
-                  monthName: getMonthNameFromId(nomination.id),
-                }}
-                setShowMonthPicker={setIsPickerOpen}
-                showMonthPicker={isPickerOpen}
-                size="small"
-              />
-              {isPickerOpen ? (
-                <MonthPicker
-                  setIsOpen={setIsPickerOpen}
-                  selected={{
-                    month,
-                    year,
-                  }}
-                  onChange={(s: any) => {
-                    // s.month is 1-indexed
-                    const monthIndex = s.month - 1
-                    router.push(getSelectedBookPageUrl(monthIndex, s.year))
-                  }}
-                  size="small"
-                />
-              ) : null}
-            </div>
-          </div>
-
           <NominationBanner />
           <SelectedBook
             source={SelectedBookSourceType.MONTHLY}
@@ -139,7 +89,7 @@ export const getStaticProps: GetStaticProps<IProps> = async context => {
     createIfNotFound: false,
   })
 
-  if (!nomination) {
+  if (!nomination || !nomination.selectedBook) {
     return {
       redirect: {
         destination: get404PageUrl(),

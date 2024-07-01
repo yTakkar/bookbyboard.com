@@ -7,7 +7,7 @@ import { BookZoomType } from '../interface/book'
 import appConfig from '../config/appConfig'
 import { getMonthNameFromId, getMonthYearIndexFromId } from '../utils/nomination'
 import MoreContent from './MoreContent'
-import { InformationCircleIcon, SpeakerphoneIcon, StarIcon } from '@heroicons/react/solid'
+import { InformationCircleIcon, StarIcon } from '@heroicons/react/solid'
 import dayjs from 'dayjs'
 import { DesktopView, MobileView } from './ResponsiveViews'
 import CoreDivider from './core/CoreDivider'
@@ -23,6 +23,7 @@ import { AnalyticsEventType } from '../constants/analytics'
 import appAnalytics from '../lib/analytics/appAnalytics'
 import { toastSuccess } from './Toaster'
 import Tooltip from './Tooltip'
+import CalendarView from './nominate/CalendarView'
 
 const localizedFormat = require('dayjs/plugin/localizedFormat')
 
@@ -55,7 +56,7 @@ const SelectedBook: React.FC<ISelectedBookProps> = props => {
   const shareUrl =
     source === SelectedBookSourceType.HOME
       ? `${appConfig.global.baseUrl}${getHomePageUrl()}`
-      : `${appConfig.global.baseUrl}${getSelectedBookPageUrl(month, year)}`
+      : `${appConfig.global.baseUrl}${getSelectedBookPageUrl(`${month}-${year}`)}`
 
   const shareText = `${book.title} - Book of the Month | ${appConfig.global.app.name}`
 
@@ -124,9 +125,9 @@ const SelectedBook: React.FC<ISelectedBookProps> = props => {
     return (
       <div className="cursor-pointer">
         {shouldShowNativeShare ? (
-          <Tooltip content={'Share'} disableOnMobile>
+          <Tooltip content={'Share'}>
             <ShareIcon
-              className="w-4 md:w-5"
+              className="w-[18px] md:w-5"
               onClick={() => {
                 handleNativeShare({
                   text: shareText,
@@ -136,9 +137,9 @@ const SelectedBook: React.FC<ISelectedBookProps> = props => {
             />
           </Tooltip>
         ) : (
-          <Tooltip content={'Copy link'} disableOnMobile>
+          <Tooltip content={'Copy link'}>
             <LinkIcon
-              className="w-4 md:w-5"
+              className="w-[18px] md:w-5"
               onClick={() => {
                 handleURLCopy()
               }}
@@ -161,7 +162,10 @@ const SelectedBook: React.FC<ISelectedBookProps> = props => {
             <span>selected book</span>
           </div>
         </div>
-        <div className="ml-2">{renderShareIcon()}</div>
+        <div className="ml-2 flex items-center">
+          <CalendarView month={month} year={year} />
+          {renderShareIcon()}
+        </div>
       </div>
 
       <div className="md:my-8 ">
@@ -258,7 +262,9 @@ const SelectedBook: React.FC<ISelectedBookProps> = props => {
         <Collapsible
           trigger={
             <div className={'flex items-start w-full transition-all bg-white cursor-pointer justify-center'}>
-              <div className="text-gray-900 font-normal font-primary-medium pr-2">View all nominations</div>
+              <div className="text-gray-900 font-normal font-primary-medium pr-2">
+                View all {pluralize('nomination', nomination.suggestions.length)}
+              </div>
               <ChevronDownIcon className="min-w-5 w-5 lg:min-w-6 lg:w-6 text-gray-700 collapsible-chevron-icon" />
             </div>
           }
@@ -268,6 +274,13 @@ const SelectedBook: React.FC<ISelectedBookProps> = props => {
           </div>
         </Collapsible>
       </div>
+
+      {/* <CoreLink
+        className="flex items-center justify-center mt-10 underline text-brand-primary"
+        url={getSelectedBookPageUrl(getPreviousNominationId())}>
+        <CalendarIcon className="w-4 mr-1" />
+        <span>Checkout past book selections</span>
+      </CoreLink> */}
     </div>
   )
 }
