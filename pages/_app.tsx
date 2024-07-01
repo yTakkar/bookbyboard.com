@@ -100,6 +100,8 @@ const MyApp: NextPage<IProps> = props => {
     }
   }
 
+  console.log(appConfig.admin.users)
+
   return (
     <>
       <ApplicationContext.Provider value={applicationContext}>
