@@ -160,9 +160,7 @@ const appConfig = {
     ].filter(Boolean),
     copyrightText: `&copy; ${new Date().getFullYear()} ${app.name}. All rights reserved.`,
   },
-  admin: {
-    users: (process.env.ADMIN_USERS || '').replace(/,/g, '').split('\n'),
-  },
+  admin: {},
   author: {
     website: 'https://faiyaztakkar.dev',
   },

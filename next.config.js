@@ -54,7 +54,6 @@ const nextConfig = {
   env: {
     ...parsedEnvs,
     ENV: appEnv,
-    ADMIN_USERS: process.env.ADMIN_USERS,
   },
   trailingSlash: false,
   basePath: '',
