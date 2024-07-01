@@ -161,7 +161,7 @@ const appConfig = {
     copyrightText: `&copy; ${new Date().getFullYear()} ${app.name}. All rights reserved.`,
   },
   admin: {
-    users: process.env.ADMIN_USERS,
+    users: (process.env.ADMIN_USERS || '').replace(/,/g, '').split('\n'),
   },
   author: {
     website: 'https://faiyaztakkar.dev',
