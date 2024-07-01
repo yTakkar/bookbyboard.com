@@ -4,7 +4,7 @@ import Loader, { LoaderType } from '../loader/Loader'
 import { toastError } from '../Toaster'
 import { prepareBookInfo, searchGoogleBooksByName } from '../../utils/book'
 import CoreTextInput, { CoreTextInputType } from '../core/CoreInput'
-import { PencilAltIcon, SearchIcon } from '@heroicons/react/outline'
+import { PencilAltIcon } from '@heroicons/react/outline'
 import { IBookInfo } from '../../interface/book'
 import classNames from 'classnames'
 import CoreImage from '../core/CoreImage'
@@ -21,6 +21,7 @@ interface ISelectBookPopupProps {
 const SelectBookPopup: React.FC<ISelectBookPopupProps> = props => {
   const { onClose, onBookSelect } = props
 
+  const [searchValue, setSearchValue] = useState('')
   const [loading, toggleLoading] = useState(false)
   const [books, setBooks] = useState<IBookInfo[]>([])
   const [selectedBook, setSelectedBook] = useState<IBookInfo | null>(null)
@@ -147,8 +148,14 @@ const SelectBookPopup: React.FC<ISelectBookPopupProps> = props => {
               autoFocus
               autoComplete="off"
               inputClassName={'!py-1 !pr-8 !pl-2'}
-              onEnter={value => {
-                const validValue = value.trim()
+              showClearIcon
+              value={searchValue}
+              setValue={setSearchValue}
+              onClearClick={() => {
+                setSearchValue('')
+              }}
+              onEnter={() => {
+                const validValue = searchValue.trim()
                 if (validValue) {
                   fetchBooksByName(validValue)
                 } else {
@@ -156,8 +163,21 @@ const SelectBookPopup: React.FC<ISelectBookPopupProps> = props => {
                 }
               }}
             />
-            <SearchIcon className="w-5 absolute top-1/2 transform -translate-y-1/2 right-2" />
           </div>
+          <CoreButton
+            type={CoreButtonType.SOLID_PRIMARY}
+            label="Search"
+            size={CoreButtonSize.SMALL}
+            className="ml-1 py-[6px]"
+            onClick={() => {
+              const validValue = searchValue.trim()
+              if (validValue) {
+                fetchBooksByName(validValue)
+              } else {
+                setBooks([])
+              }
+            }}
+          />
         </div>
         {renderContent()}
       </div>

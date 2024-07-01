@@ -23,11 +23,24 @@ function NominationBanner({}: INominationBannerProps) {
 
   let label = null
   if (isEarlyMonth()) {
-    label = hasNominated
-      ? `Click here to vote for ${monthName} ${year} nominations`
-      : `Click here to nominate for ${monthName} ${year}`
+    label = hasNominated ? null : (
+      <span>
+        Click here to nominate for{' '}
+        <span className="underline">
+          {monthName} {year}
+        </span>
+      </span>
+    )
   } else if (isMidMonth()) {
-    label = hasVoted ? null : `Click here to vote for ${monthName} ${year} nominations`
+    label = hasVoted ? null : (
+      <span>
+        Click here to vote for{' '}
+        <span className="underline">
+          {monthName} {year}
+        </span>{' '}
+        nominations
+      </span>
+    )
   }
 
   if (!label) {
@@ -36,7 +49,7 @@ function NominationBanner({}: INominationBannerProps) {
 
   return (
     <CoreLink
-      className="bg-brand-secondary text-white w-full shadow p-3 text-sm flex justify-center cursor-pointer"
+      className="bg-brand-secondary text-white w-full shadow p-3 mb-4 text-sm flex justify-center cursor-pointer"
       url={getNominationPageUrl()}>
       <span className="">{label}</span>
       {/* <span

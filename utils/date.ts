@@ -22,7 +22,7 @@ export const isMidMonth = () => {
   const currentYear = new Date().getUTCFullYear()
   const totalDaysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate()
   const currentDay = new Date().getUTCDate()
-  return currentDay > totalDaysInMonth * 0.5 && currentDay <= totalDaysInMonth * 0.6
+  return currentDay > totalDaysInMonth * 0.5 && currentDay <= totalDaysInMonth * 0.9
 }
 
 // write a method that returns true if 90-100% of the current month's days have passed
@@ -31,5 +31,5 @@ export const isLateMonth = () => {
   const currentYear = new Date().getUTCFullYear()
   const totalDaysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate()
   const currentDay = new Date().getUTCDate()
-  return currentDay > totalDaysInMonth * 0.6
+  return currentDay > totalDaysInMonth * 0.9
 }
