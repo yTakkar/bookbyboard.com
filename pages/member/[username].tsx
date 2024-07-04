@@ -18,6 +18,7 @@ import CoreLink from '../../components/core/CoreLink'
 import { IBoardMemberInfo } from '../../interface/boardMember'
 import { prepareMemberPageSeo } from '../../utils/seo/pages/member'
 import NominationBanner from '../../components/nominate/NominateBanner'
+import NoContent from '../../components/NoContent'
 
 interface IProps extends IGlobalLayoutProps {
   pageData: {
@@ -51,16 +52,16 @@ const ProfilePage: NextPage<IProps> = (props: IProps) => {
       show: !!memberInfo.websiteUrl,
     },
     {
-      url: `https://twitter.com/${memberInfo.socialUsernames.twitter}`,
-      name: 'Twitter',
-      iconSrc: SOCIAL_ICONS_SRC_MAP.TWITTER,
-      show: !!memberInfo.socialUsernames.twitter,
-    },
-    {
       url: `https://instagram.com/${memberInfo.socialUsernames.instagram}`,
       name: 'Instagram',
       iconSrc: SOCIAL_ICONS_SRC_MAP.INSTAGRAM,
       show: !!memberInfo.socialUsernames.instagram,
+    },
+    {
+      url: `https://x.com/${memberInfo.socialUsernames.twitter}`,
+      name: 'Twitter',
+      iconSrc: SOCIAL_ICONS_SRC_MAP.TWITTER,
+      show: !!memberInfo.socialUsernames.twitter,
     },
     {
       url: `https://www.youtube.com/@${memberInfo.socialUsernames.instagram}`,
@@ -79,7 +80,7 @@ const ProfilePage: NextPage<IProps> = (props: IProps) => {
       <NominationBanner />
 
       <div className="p-4 py-6">
-        <div className="bg-whit flex flex-col justify-center items-center lg:flex-row lg:justify-normal">
+        <div className="bg-white flex flex-col justify-center items-center lg:flex-row lg:justify-normal">
           <div
             onClick={() => {
               if (currentUserProfile) {
@@ -134,7 +135,12 @@ const ProfilePage: NextPage<IProps> = (props: IProps) => {
           </div>
         </div>
 
-        <div className="mt-10">{/* <ListInfos lists={lists} profileUser={profileInfo} /> */}</div>
+        <div className="mt-10">
+          <NoContent
+            message={`Books nominated by ${memberInfo.name} will appear here soon.`}
+            imageClassName="w-full lg:w-[700px]"
+          />
+        </div>
       </div>
     </PageContainer>
   )

@@ -1,5 +1,5 @@
 .quotes-wrapper {
-  @apply italic relative;
+  @apply italic relative whitespace-pre-line;
 
   &::after,
   &::before {

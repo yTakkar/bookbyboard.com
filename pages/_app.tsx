@@ -17,8 +17,6 @@ import OrientationLock from '../components/OrientationLock'
 import PopupRenderer from '../components/popup/PopupRenderer'
 import { dynamicNprogress } from '../components/dynamicModules'
 import { Analytics } from '@vercel/analytics/react'
-import GeneralFeedbackFormButton from '../components/GeneralFeedbackFormButton'
-import { DesktopView } from '../components/ResponsiveViews'
 import appAnalytics from '../lib/analytics/appAnalytics'
 import Footer from '../components/footer/Footer'
 
@@ -128,9 +126,9 @@ const MyApp: NextPage<IProps> = props => {
           {/* {appConfig.features.enableScrollToTop ? <ScrollToTop /> : null} */}
           {!appConfig.features.enableLandscapeMode ? <OrientationLock /> : null}
           <PopupRenderer />
-          <DesktopView useCSS>
+          {/* <DesktopView useCSS>
             <GeneralFeedbackFormButton />
-          </DesktopView>
+          </DesktopView> */}
 
           {!appConfig.isDev && <Analytics />}
         </ErrorBoundary>

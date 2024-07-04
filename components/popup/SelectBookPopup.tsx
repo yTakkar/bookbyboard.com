@@ -12,6 +12,7 @@ import appConfig from '../../config/appConfig'
 import CoreTextarea from '../core/CoreTextarea'
 import CoreButton, { CoreButtonSize, CoreButtonType } from '../core/CoreButton'
 import CoreDivider from '../core/CoreDivider'
+import { APP_LOGO } from '../../constants/constants'
 
 interface ISelectBookPopupProps {
   onClose: () => void
@@ -119,7 +120,7 @@ const SelectBookPopup: React.FC<ISelectBookPopupProps> = props => {
         {books.length === 0 ? (
           <div className={classNames('p-5 flex flex-col items-center justify-center mt-16')}>
             <div className="w-20 h-20 bg-gray-300 mb-4"></div>
-            <div className="text-center mt-2">{`No books found. Try searching for a book by title.`}</div>
+            <div className="text-center mt-2">{`No books found. Try searching.`}</div>
           </div>
         ) : (
           <div>
@@ -144,7 +145,7 @@ const SelectBookPopup: React.FC<ISelectBookPopupProps> = props => {
           <div className="flex-grow relative">
             <CoreTextInput
               type={CoreTextInputType.TEXT}
-              placeholder="Search by book title"
+              placeholder="Search by book title or author name"
               autoFocus
               autoComplete="off"
               inputClassName={'!py-1 !pr-8 !pl-2'}

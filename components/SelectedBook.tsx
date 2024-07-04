@@ -24,6 +24,7 @@ import appAnalytics from '../lib/analytics/appAnalytics'
 import { toastSuccess } from './Toaster'
 import Tooltip from './Tooltip'
 import CalendarView from './nominate/CalendarView'
+import { APP_LOGO } from '../constants/constants'
 
 const localizedFormat = require('dayjs/plugin/localizedFormat')
 
@@ -84,7 +85,7 @@ const SelectedBook: React.FC<ISelectedBookProps> = props => {
         <div className="flex items-start">
           <div>
             <CoreImage
-              url={enlargeBookImage(suggestion.book.imageUrls.thumbnail, BookZoomType.SMALL)}
+              url={enlargeBookImage(suggestion.book.imageUrls.thumbnail, BookZoomType.SMALL) || APP_LOGO.DEFAULT_WHITE}
               alt={`${suggestion.book.title} on ${appConfig.global.app.name}`}
               className="w-10 mr-2 mt-1"
             />
@@ -175,7 +176,6 @@ const SelectedBook: React.FC<ISelectedBookProps> = props => {
           ])}>
           {book.title}
         </div>
-        {book.subTitle && <div className="my-2 text-gray-800">{book.description}</div>}
         <div className="text-typo-paragraphLight flex items-center">
           <div className="">{book.authors.join(', ')}</div>
         </div>
@@ -186,22 +186,22 @@ const SelectedBook: React.FC<ISelectedBookProps> = props => {
         {/* <div className="flex justify-end">{renderShareIcon()}</div> */}
         <div className="flex justify-center">
           <CoreImage
-            url={enlargeBookImage(book.imageUrls.thumbnail, BookZoomType.MEDIUM)}
+            url={enlargeBookImage(book.imageUrls.thumbnail, BookZoomType.MEDIUM) || APP_LOGO.DEFAULT_WHITE}
             alt={`${book.title} is the selected book of ${monthName} ${year} on ${appConfig.global.app.name}`}
-            className="w-60 max-w-60 self-start"
+            className="w-60 max-w-60 self-start shadow rounded"
           />
         </div>
 
         <div className="mt-8 md:mt-0 md:ml-6">
-          <DesktopView>
+          {/* <DesktopView>
             <div className="moreContent-text text-gray-800">{book.description}</div>
-          </DesktopView>
+          </DesktopView> */}
 
-          <MobileView>
-            <MoreContent>
-              <div className="moreContent-text ">{book.description}</div>
-            </MoreContent>
-          </MobileView>
+          {/* <MobileView> */}
+          <MoreContent>
+            <div className="moreContent-text ">{book.description}</div>
+          </MoreContent>
+          {/* </MobileView> */}
 
           <div className="font-semibold text-typo-paragraph mt-6 flex items-center">
             <InformationCircleIcon className="w-4 mr-1" /> More information
@@ -240,8 +240,7 @@ const SelectedBook: React.FC<ISelectedBookProps> = props => {
       <CoreDivider className="my-6 md:my-8" />
 
       <div className="">
-        {note && <QuotesWrapper text={note || ''} />}
-        <div className="mt-4 flex items-center">
+        <div className="mb-4 flex items-center">
           Nominated by:{' '}
           <CoreLink
             url={getMemberPageUrl(selectedBoardMember?.username || '')}
@@ -254,6 +253,7 @@ const SelectedBook: React.FC<ISelectedBookProps> = props => {
             {selectedBoardMember?.name}
           </CoreLink>
         </div>
+        {note && <QuotesWrapper text={note || ''} />}
       </div>
 
       <CoreDivider className="my-6 md:my-8" />
@@ -263,7 +263,7 @@ const SelectedBook: React.FC<ISelectedBookProps> = props => {
           trigger={
             <div className={'flex items-start w-full transition-all bg-white cursor-pointer justify-center'}>
               <div className="text-gray-900 font-normal font-primary-medium pr-2">
-                View all {pluralize('nomination', nomination.suggestions.length)}
+                View all nominations ({nomination.suggestions.length})
               </div>
               <ChevronDownIcon className="min-w-5 w-5 lg:min-w-6 lg:w-6 text-gray-700 collapsible-chevron-icon" />
             </div>

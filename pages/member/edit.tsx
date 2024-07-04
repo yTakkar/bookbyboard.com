@@ -338,7 +338,7 @@ const ProfileEdit: NextPage<IProps> = () => {
           </div>
 
           <div className="user-input-group">
-            <div className="user-input-label">Twitter Username</div>
+            <div className="user-input-label">X Username</div>
             <CoreTextInput
               type={CoreTextInputType.TEXT}
               placeholder="Eg. naval"

@@ -21,6 +21,8 @@ export const APP_LOGO = {
 
   // white
   DEFAULT_WHITE: prepareImageUrl(`/images/logos/white/logo.png`, ImageSourceType.ASSET),
+  DEFAULT_WHITE_LABEL: prepareImageUrl(`/images/logos/white/logo-label.png`, ImageSourceType.ASSET),
+  DEFAULT_WHITE_LABEL_INLINE: prepareImageUrl(`/images/logos/white/logo-horizontal.png`, ImageSourceType.ASSET),
 }
 
 export const SOCIAL_SHARE_BANNERS: Record<number, string> = {

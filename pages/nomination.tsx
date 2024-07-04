@@ -35,6 +35,7 @@ import { InformationCircleIcon } from '@heroicons/react/solid'
 import CoreDivider from '../components/core/CoreDivider'
 import { CheckCircleIcon } from '@heroicons/react/solid'
 import Alert from '../components/modal/Alert'
+import { APP_LOGO } from '../constants/constants'
 
 interface IProps extends IGlobalLayoutProps {
   pageData: {}
@@ -254,9 +255,9 @@ const VotePage: NextPage<IProps> = () => {
 
               <div className="flex justify-center">
                 <CoreImage
-                  url={enlargeBookImage(book.imageUrls.thumbnail, BookZoomType.MEDIUM)}
+                  url={enlargeBookImage(book.imageUrls.thumbnail, BookZoomType.MEDIUM) || APP_LOGO.DEFAULT_WHITE}
                   alt={`${book.title} on ${appConfig.global.app.name}`}
-                  className="w-60"
+                  className="w-60 shadow rounded"
                 />
               </div>
 
@@ -316,9 +317,9 @@ const VotePage: NextPage<IProps> = () => {
 
             <div className="flex justify-center">
               <CoreImage
-                url={enlargeBookImage(book.imageUrls.thumbnail, BookZoomType.MEDIUM)}
+                url={enlargeBookImage(book.imageUrls.thumbnail, BookZoomType.MEDIUM) || APP_LOGO.DEFAULT_WHITE}
                 alt={`${book.title} on ${appConfig.global.app.name}`}
-                className="w-60"
+                className="w-60 shadow rounded"
               />
             </div>
 
