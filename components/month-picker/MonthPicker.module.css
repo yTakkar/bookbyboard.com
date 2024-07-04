@@ -49,6 +49,7 @@
   width: 200px;
   margin-top: 5px;
   right: 10px;
+  z-index: 1;
 }
 
 .button {

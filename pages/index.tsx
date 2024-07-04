@@ -2,7 +2,7 @@
 import React from 'react'
 import { IGlobalLayoutProps } from './_app'
 import { GetStaticProps, NextPage } from 'next'
-import { prepareHomePageSeo } from '../utils/seo/pages/home'
+import { prepareBasePageSeo, prepareHomePageSeo } from '../utils/seo/pages/home'
 import PageContainer from '../components/PageContainer'
 import { useRouter } from 'next/router'
 import NominationBanner from '../components/nominate/NominateBanner'
@@ -16,7 +16,7 @@ import { PAGE_REVALIDATE_TIME } from '../constants/constants'
 
 interface IProps extends IGlobalLayoutProps {
   pageData: {
-    nomination: INominationDetail
+    nomination: INominationDetail | null
     profileInfoMap: Record<string, IBoardMemberInfo>
   }
 }
@@ -36,7 +36,13 @@ const Home: NextPage<IProps> = props => {
     <PageContainer>
       <div className="">
         <NominationBanner />
-        <SelectedBook source={SelectedBookSourceType.HOME} nomination={nomination} profileInfoMap={profileInfoMap} />
+
+        <SelectedBook
+          source={SelectedBookSourceType.HOME}
+          nominationId={getCurrentNominationId()}
+          nomination={nomination}
+          profileInfoMap={profileInfoMap}
+        />
       </div>
     </PageContainer>
   )
@@ -52,10 +58,10 @@ export const getStaticProps: GetStaticProps<IProps> = async () => {
   return {
     props: {
       pageData: {
-        nomination: nomination,
+        nomination: nomination || null,
         profileInfoMap,
       },
-      seo: prepareHomePageSeo(nomination),
+      seo: nomination ? prepareHomePageSeo(nomination) : prepareBasePageSeo(),
       layoutData: {
         header: {},
         footer: {

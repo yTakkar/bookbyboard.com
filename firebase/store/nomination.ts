@@ -36,7 +36,11 @@ export const updateNomination = async (id: string, nomination: Partial<INominati
   return null
 }
 
-export const getNominationProfileInfoMap = async (nomination: INominationDetail) => {
+export const getNominationProfileInfoMap = async (nomination: INominationDetail | undefined) => {
+  if (!nomination) {
+    return {}
+  }
+
   const uniqueUserEmails = new Set<string>()
   nomination.suggestions.forEach(suggestion => {
     uniqueUserEmails.add(suggestion.boardMemberEmail)

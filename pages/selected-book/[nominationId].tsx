@@ -11,14 +11,13 @@ import { INominationDetail } from '../../interface/nomination'
 import PageLoader from '../../components/loader/PageLoader'
 import { IBoardMemberInfo } from '../../interface/boardMember'
 import { INITIAL_PAGE_BUILD_COUNT, PAGE_REVALIDATE_TIME } from '../../constants/constants'
-import { get404PageUrl } from '../../utils/routes'
 import { MobileView } from '../../components/ResponsiveViews'
 import Snackbar from '../../components/header/Snackbar'
 import { prepareSelectedBookPageSeo } from '../../utils/seo/pages/selectedBook'
 
 interface IProps extends IGlobalLayoutProps {
   pageData: {
-    nomination: INominationDetail
+    nomination: INominationDetail | null
     profileInfoMap: Record<string, IBoardMemberInfo>
   }
 }
@@ -47,8 +46,10 @@ const SelectedBookPage: NextPage<IProps> = props => {
 
         <div className="mt-4">
           <NominationBanner />
+
           <SelectedBook
             source={SelectedBookSourceType.MONTHLY}
+            nominationId={router.query.nominationId as string}
             nomination={nomination}
             profileInfoMap={profileInfoMap}
           />
@@ -79,34 +80,27 @@ export const getStaticProps: GetStaticProps<IProps> = async context => {
   const params = context.params as any
 
   // month-year
-  const nominationId = params.nominationId
+  const _nominationId = params.nominationId
 
   // remove 0 from month (if it exists)
-  const month = nominationId.split('-')[0].replace(/^0+/, '')
-  const year = nominationId.split('-')[1]
+  const month = _nominationId.split('-')[0].replace(/^0+/, '')
+  const year = _nominationId.split('-')[1]
 
-  const nomination = await getNominationById(`${month}-${year}`, {
+  const nominationId = `${month}-${year}`
+
+  const nomination = await getNominationById(nominationId, {
     createIfNotFound: false,
   })
-
-  if (!nomination || !nomination.selectedBook) {
-    return {
-      redirect: {
-        destination: get404PageUrl(),
-        permanent: false,
-      },
-    }
-  }
 
   const profileInfoMap = await getNominationProfileInfoMap(nomination)
 
   return {
     props: {
       pageData: {
-        nomination: nomination,
+        nomination: nomination || null,
         profileInfoMap,
       },
-      seo: prepareSelectedBookPageSeo(nomination),
+      seo: prepareSelectedBookPageSeo(nominationId, nomination),
       layoutData: {
         header: {
           hideTopNav: {

@@ -61,7 +61,7 @@ const MorePage: NextPage<IProps> = () => {
     },
     {
       label: 'Live nomination',
-      subTitle: `Nominate & vote for this month's selected book`,
+      subTitle: `Nominate & vote for this month`,
       url: getNominationPageUrl(),
       icon: StatusOnlineIcon,
       show: !!user,
