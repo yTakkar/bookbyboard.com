@@ -1,0 +1,54 @@
+doctype html
+html
+  head
+    style.
+      body {
+          font-family: Helvetica, sans-serif;
+          margin: 0;
+          padding: 0;
+          background-color: #f9f9f9;
+      }
+      .container {
+          max-width: 600px;
+          margin: 0 auto;
+          padding: 20px;
+          background-color: #ffffff;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .header {
+          text-align: center;
+          padding: 20px;
+      }
+      .content {
+          padding: 20px;
+          text-align: left;
+      }
+      .footer {
+          text-align: center;
+          padding: 20px;
+          font-size: 12px;
+          color: #999999;
+      }
+      .button {
+          background-color: #4D2557;
+          color: #fff !important;
+          padding: 10px 20px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          border-radius: 5px;
+          font-size: 16px;
+          margin: 10px 0;
+      }
+  body
+    .container
+      .header
+        img(src="https://bookbyboard.com/images/logos/transparent/logo-label-inline-transparent.png", alt="BookByBoard Logo", style="width: 150px;")
+        h2 Vote for Book of the Month (#{dateString})
+      .content
+        p Dear Board Member,
+        p Thank you for your nominations! Now it's time to cast your vote and help select the Book of the Month. Your vote is crucial in ensuring we pick the best book for our community.
+        p Please cast your vote before 25th of this month.
+        a.button(href="https://bookbyboard.com/nomination") Vote Now
+      .footer
+        p Thank you for being a part of BookByBoard.

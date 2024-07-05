@@ -38,7 +38,7 @@ export const getBoardMemberByUsername = async (username: string): Promise<IBoard
 }
 
 export const listBoardMembers = async (params: IListBoardMembersParams): Promise<IBoardMemberInfo[]> => {
-  const q = query(boardMemberCollection, limit(params.limit))
+  const q = query(boardMemberCollection, limit(params.limit as any))
   const querySnapshot = await getDocs(q)
   return querySnapshot.docs.map(doc => doc.data() as IBoardMemberInfo)
 }

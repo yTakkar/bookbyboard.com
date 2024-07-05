@@ -131,6 +131,9 @@ const appConfig = {
         FULL_1280: 't_full_1280', // c_fill,w_1280
       },
     },
+    resend: {
+      apiKey: process.env.ENV_INTEGRATION_RESEND_API_KEY,
+    },
   },
   company: {
     name: 'BookByBoard',

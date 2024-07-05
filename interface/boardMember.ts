@@ -15,5 +15,5 @@ export interface IBoardMemberInfo {
 }
 
 export interface IListBoardMembersParams {
-  limit: number
+  limit?: number
 }
