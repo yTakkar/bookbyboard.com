@@ -1,0 +1,14 @@
+// Board member request modal overrides
+.boardMemberRequestPopupOverrides {
+  @include mobile {
+    @apply w-full absolute m-0 bottom-0 py-1;
+    width: 100% !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+  }
+
+  @include desktop {
+    @apply p-2;
+    width: 600px !important;
+  }
+}

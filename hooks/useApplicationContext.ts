@@ -15,6 +15,8 @@ import { signInWithGoogle } from '../firebase/auth/auth'
 import { vibrate } from '../utils/common'
 import { toastError, toastSuccess } from '../components/Toaster'
 import { addBoardMember } from '../firebase/store/boardMember'
+import { PopupType } from '../interface/popup'
+import { isBoardMemberAllowed } from '../firebase/store/allowedBoardMembers'
 
 const useApplicationContext = () => {
   const { applicationContext, dispatchApplicationContext } = useApplicationContextReducer()
@@ -52,6 +54,18 @@ const useApplicationContext = () => {
   const login: IContextMethods['login'] = async onSuccess => {
     try {
       const user = await signInWithGoogle()
+      const boardMemberAllowed = await isBoardMemberAllowed(user.email as string)
+
+      if (!boardMemberAllowed) {
+        togglePopup(PopupType.BOARD_MEMBER_REQUEST, {
+          boardMemberEmail: user.email,
+        })
+        appAnalytics.sendEvent({
+          action: AnalyticsEventType.BOARD_MEMBER_REQUEST,
+        })
+        return
+      }
+
       const preparedUserInfo = await prepareBoardMemberInfo(user)
       const { boardMemberInfo, newUser } = await addBoardMember(preparedUserInfo)
       vibrate()

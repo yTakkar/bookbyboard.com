@@ -11,6 +11,8 @@ export enum AnalyticsEventType {
   LOGIN = 'login',
   LOGOUT = 'logout',
 
+  BOARD_MEMBER_REQUEST = 'board_member_request',
+
   // update profile
   EDIT_PROFILE = 'edit_profile',
   EDIT_PROFILE_AVATAR = 'edit_profile_avatar',

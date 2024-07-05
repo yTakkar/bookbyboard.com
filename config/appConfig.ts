@@ -85,6 +85,7 @@ const appConfig = {
   share: {},
   feedback: {
     generalFeedbackForm: 'https://forms.gle/kZ659D87vZyYQihs8',
+    boardMemberRequestForm: 'https://forms.gle/cffohhQ1eJt9knMn6',
   },
   build: {
     pageRevalidateTimeInSec: {

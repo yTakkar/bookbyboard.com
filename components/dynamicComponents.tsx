@@ -18,8 +18,8 @@ export const DynamicToaster = dynamic(
 )
 
 // popups
-export const DynamicLoginPopup = dynamic(
-  () => import(/* webpackChunkName: "LoginPopup" */ 'components/popup/LoginPopup'),
+export const DynamicBoardMemberRequestPopup = dynamic(
+  () => import(/* webpackChunkName: "BoardMemberRequestPopup" */ 'components/popup/BoardMemberRequestPopup'),
   {
     ssr: false,
   }

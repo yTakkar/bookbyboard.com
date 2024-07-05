@@ -1,6 +1,8 @@
 import { IAppSeoProps } from '../../../components/seo/AppSeo'
 import appConfig from '../../../config/appConfig'
+import { BookZoomType } from '../../../interface/book'
 import { INominationDetail, INominationSuggestion } from '../../../interface/nomination'
+import { enlargeBookImage } from '../../book'
 import { getMonthNameFromId, getMonthYearIndexFromId } from '../../nomination'
 import { getSelectedBookPageUrl } from '../../routes'
 
@@ -32,6 +34,6 @@ export const prepareSelectedBookPageSeo = (nominationId: string, nomination: INo
     )}. Read the book summary, nomination details, and more on ${appConfig.global.app.name}.`,
     canonical: `${appConfig.global.baseUrl}${getSelectedBookPageUrl(nominationId)}`,
     keywords: [`book of the month for ${monthName} ${year}`, book.title, book.authors.join(', ')],
-    imageUrl: book.imageUrls.thumbnail,
+    imageUrl: enlargeBookImage(book.imageUrls.thumbnail, BookZoomType.MEDIUM),
   }
 }

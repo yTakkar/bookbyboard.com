@@ -9,14 +9,13 @@ import { getMonthNameFromId, getMonthYearIndexFromId } from '../utils/nomination
 import MoreContent from './MoreContent'
 import { InformationCircleIcon, StarIcon } from '@heroicons/react/solid'
 import dayjs from 'dayjs'
-import { DesktopView, MobileView } from './ResponsiveViews'
 import CoreDivider from './core/CoreDivider'
 import QuotesWrapper from './QuotesWrapper'
 import CoreLink from './core/CoreLink'
 import { getHomePageUrl, getMemberPageUrl, getSelectedBookPageUrl } from '../utils/routes'
 import { copyToClipboard, pluralize } from '../utils/common'
 import Collapsible from './Collapsible'
-import { ChevronDownIcon, LinkIcon, ShareIcon } from '@heroicons/react/outline'
+import { ChevronDownIcon, ShareIcon } from '@heroicons/react/outline'
 import { IBoardMemberInfo } from '../interface/boardMember'
 import useNativeShare from '../hooks/useNativeShare'
 import { AnalyticsEventType } from '../constants/analytics'
@@ -48,7 +47,7 @@ const SelectedBook: React.FC<ISelectedBookProps> = props => {
 
   const selectedSuggestion = nomination?.suggestions.find(
     s => s.boardMemberEmail === nomination.selectedBook?.boardMemberEmail
-  ) as INominationSuggestion
+  ) as INominationSuggestion | undefined
 
   const { book, note } = selectedSuggestion || {}
   const selectedBoardMember = (profileInfoMap || {})[selectedSuggestion?.boardMemberEmail as any]
@@ -61,9 +60,9 @@ const SelectedBook: React.FC<ISelectedBookProps> = props => {
       ? `${appConfig.global.baseUrl}${getHomePageUrl()}`
       : `${appConfig.global.baseUrl}${getSelectedBookPageUrl(nominationId)}`
 
-  const shareText = `${book ? `${book.title} - ` : ''}Book of the Month for ${monthName} ${year} on ${
-    appConfig.global.app.name
-  }`
+  const shareText = `📚 ${book?.title} by ${book?.authors.join(
+    ', '
+  )} is the selected book for ${monthName} ${year} on ${appConfig.global.app.name}. Check it out! ${shareUrl}`
 
   const handleURLCopy = () => {
     copyToClipboard(shareUrl)
@@ -169,7 +168,7 @@ const SelectedBook: React.FC<ISelectedBookProps> = props => {
         </div>
         <div className="ml-2 flex items-center">
           <CalendarView month={month} year={year} />
-          {renderShareIcon()}
+          {book && renderShareIcon()}
         </div>
       </div>
 
@@ -179,12 +178,12 @@ const SelectedBook: React.FC<ISelectedBookProps> = props => {
           <div className="md:my-8 ">
             <div
               className={classNames('font-domaine-bold font-bold mb-1', [
-                book.title?.length >= 100 ? 'text-2xl' : 'text-3xl',
+                book!.title?.length >= 100 ? 'text-2xl' : 'text-3xl',
               ])}>
-              {book.title}
+              {book!.title}
             </div>
             <div className="text-typo-paragraphLight flex items-center">
-              <div className="">{book.authors.join(', ')}</div>
+              <div className="">{book!.authors.join(', ')}</div>
             </div>
           </div>
           <div className="md:flex">
@@ -192,20 +191,20 @@ const SelectedBook: React.FC<ISelectedBookProps> = props => {
             {/* <div className="flex justify-end">{renderShareIcon()}</div> */}
             <div className="flex justify-center">
               <CoreImage
-                url={enlargeBookImage(book.imageUrls.thumbnail, BookZoomType.MEDIUM) || APP_LOGO.DEFAULT_WHITE}
-                alt={`${book.title} is the book of the month for ${monthName} ${year} on ${appConfig.global.app.name}`}
+                url={enlargeBookImage(book!.imageUrls.thumbnail, BookZoomType.MEDIUM) || APP_LOGO.DEFAULT_WHITE}
+                alt={`${book!.title} is the book of the month for ${monthName} ${year} on ${appConfig.global.app.name}`}
                 className="w-60 max-w-60 self-start shadow rounded"
               />
             </div>
 
             <div className="mt-8 md:mt-0 md:ml-6">
               {/* <DesktopView>
-            <div className="moreContent-text text-gray-800">{book.description}</div>
+            <div className="moreContent-text text-gray-800">{book!.description}</div>
           </DesktopView> */}
 
               {/* <MobileView> */}
               <MoreContent>
-                <div className="moreContent-text ">{book.description}</div>
+                <div className="moreContent-text ">{book!.description}</div>
               </MoreContent>
               {/* </MobileView> */}
 
@@ -214,25 +213,25 @@ const SelectedBook: React.FC<ISelectedBookProps> = props => {
               </div>
 
               <dl className="table text-gray-800 text-sm mt-2">
-                {book.pageCount && (
+                {book!.pageCount && (
                   <div className="table-row">
                     <dt className="table-cell py-1 pr-5 w-28 text-typo-paragraphLight">Pages</dt>
-                    <dd className="table-cell py-1">{book.pageCount}</dd>
+                    <dd className="table-cell py-1">{book!.pageCount}</dd>
                   </div>
                 )}
-                {book.publishedDate && (
+                {book!.publishedDate && (
                   <div className="table-row">
                     <dt className="table-cell py-1 pr-5 w-28 text-typo-paragraphLight">Published</dt>
                     <dd className="table-cell py-1">
-                      {dayjs(book.publishedDate).format('ll')}
-                      {book.publisher ? ` by ${book.publisher}` : ''}
+                      {dayjs(book!.publishedDate).format('ll')}
+                      {book!.publisher ? ` by ${book!.publisher}` : ''}
                     </dd>
                   </div>
                 )}
-                {book.categories?.length && (
+                {book!.categories?.length && (
                   <div className="table-row">
                     <dt className="table-cell py-1 pr-5 w-28 text-typo-paragraphLight">Categories</dt>
-                    <dd className="table-cell py-1">{book.categories.join(', ')}</dd>
+                    <dd className="table-cell py-1">{book!.categories.join(', ')}</dd>
                   </div>
                 )}
                 {/* <div className="table-row">

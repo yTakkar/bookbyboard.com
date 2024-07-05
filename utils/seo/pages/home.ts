@@ -1,6 +1,8 @@
 import { IAppSeoProps } from '../../../components/seo/AppSeo'
 import appConfig from '../../../config/appConfig'
+import { BookZoomType } from '../../../interface/book'
 import { INominationDetail, INominationSuggestion } from '../../../interface/nomination'
+import { enlargeBookImage } from '../../book'
 import { getHomePageUrl } from '../../routes'
 
 export const prepareBasePageSeo = (): IAppSeoProps => {
@@ -24,6 +26,6 @@ export const prepareHomePageSeo = (nomination: INominationDetail): IAppSeoProps 
     description: `Discover ${book.title}, the book of the month on BookByBoard, nominated by our board members. Learn why this book was chosen and join our community of passionate readers.`,
     canonical: `${appConfig.global.baseUrl}${getHomePageUrl()}`,
     keywords: [book.title, (book.authors || []).join(', ')],
-    imageUrl: book.imageUrls.thumbnail,
+    imageUrl: enlargeBookImage(book.imageUrls.thumbnail, BookZoomType.MEDIUM),
   }
 }

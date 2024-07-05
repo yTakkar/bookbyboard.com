@@ -5,10 +5,9 @@ import {
   prepareWebpageStructuredData,
   prepareWebsiteStructuredData,
 } from '../../utils/seo/structuredData'
-import { SOCIAL_SHARE_BANNERS } from '../../constants/constants'
 import appConfig from '../../config/appConfig'
 import { prepareBasePageSeo } from '../../utils/seo/pages/home'
-import { getRandomArrayItem } from '../../utils/array'
+import { APP_LOGO } from '../../constants/constants'
 
 export interface IAppSeoProps {
   title: string
@@ -47,12 +46,6 @@ const AppSeo: React.FC<IAppSeoProps> = props => {
   const title = _title || defaultSeoData.title
   const description = _description || defaultSeoData.description
 
-  const shareBannerKeys = Object.keys(SOCIAL_SHARE_BANNERS)
-  const randomKey = Number(getRandomArrayItem<string>(shareBannerKeys))
-  const shareBanner = SOCIAL_SHARE_BANNERS[randomKey]
-
-  const imageUrl = shareBanner
-
   const defaultKeywords = [
     appConfig.global.app.name,
     appConfig.global.app.name.toLowerCase(),
@@ -68,6 +61,8 @@ const AppSeo: React.FC<IAppSeoProps> = props => {
     'book lovers',
     'best books',
   ]
+
+  const imageUrl = props.imageUrl || APP_LOGO.DEFAULT_WHITE
 
   return (
     <Head>
