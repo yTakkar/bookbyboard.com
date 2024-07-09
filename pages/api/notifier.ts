@@ -50,7 +50,7 @@ const sendEmailWithResend = async (type: NOTIFICATION_TYPE, members: IBoardMembe
     const resend = new Resend(appConfig.integrations.resend.apiKey)
 
     const prepareEmail = (email: string) => ({
-      from: 'BookByBoard <notifier@resend.dev>',
+      from: 'BookByBoard <notifier@bookbyboard.com>',
       to: email,
       subject: subject,
       html: emailHTML,
