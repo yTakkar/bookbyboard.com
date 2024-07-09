@@ -98,6 +98,9 @@ const appConfig = {
       SELECTED_BOOK: 100,
     },
   },
+  notification: {
+    secret_key: `main_bahot_secret_hun`,
+  },
   integrations: {
     googleAnalytics: {
       enabled: process.env.ENV_INTEGRATION_GOOGLE_ANALYTICS_ENABLED === 'true',

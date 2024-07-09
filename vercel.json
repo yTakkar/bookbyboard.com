@@ -1,7 +1,7 @@
 {
   "crons": [
     {
-      "path": "/api/notifier",
+      "path": "/api/notifier?secret=main_bahot_secret_hun",
       "schedule": "0 5 * * *"
     }
   ]

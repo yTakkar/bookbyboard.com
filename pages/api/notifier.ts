@@ -9,16 +9,38 @@ import { getAbsPath } from '../../scripts/fileSystem'
 import { Resend } from 'resend'
 import appConfig from '../../config/appConfig'
 
-const sendEmail = async (type: 'nomination' | 'voting', members: IBoardMemberInfo[]) => {
+interface IQuery {
+  secret: string
+}
+
+enum NOTIFICATION_TYPE {
+  NOMINATION = 'nomination',
+  VOTING = 'voting',
+  SELECTION = 'selection',
+}
+
+const localEmails = ['bookbyboard@gmail.com']
+
+const sendEmailWithResend = async (type: NOTIFICATION_TYPE, members: IBoardMemberInfo[]) => {
   try {
     const id = getCurrentNominationId()
     const monthName = getMonthNameFromId(id)
     const { year } = getMonthYearIndexFromId(id)
 
-    const file =
-      type === 'nomination'
-        ? getAbsPath('templates/nomination.template.pug')
-        : getAbsPath('templates/voting.template.pug')
+    const FILES_MAP = {
+      [NOTIFICATION_TYPE.NOMINATION]: getAbsPath('templates/nomination.template.pug'),
+      [NOTIFICATION_TYPE.VOTING]: getAbsPath('templates/voting.template.pug'),
+      [NOTIFICATION_TYPE.SELECTION]: getAbsPath('templates/selection.template.pug'),
+    }
+
+    const SUBJECT_MAP = {
+      [NOTIFICATION_TYPE.NOMINATION]: `BookByBoard - Nominate for ${monthName} ${year}`,
+      [NOTIFICATION_TYPE.VOTING]: `BookByBoard - Vote for ${monthName} ${year}`,
+      [NOTIFICATION_TYPE.SELECTION]: `BookByBoard - Select Book of the month for ${monthName} ${year}`,
+    }
+
+    const file = FILES_MAP[type]
+    const subject = SUBJECT_MAP[type]
 
     const emailHTML = renderFile(file, {
       dateString: `${monthName} ${year}`,
@@ -27,16 +49,18 @@ const sendEmail = async (type: 'nomination' | 'voting', members: IBoardMemberInf
 
     const resend = new Resend(appConfig.integrations.resend.apiKey)
 
-    const mails = members.map(member => ({
-      from: 'BookByBoard <onboarding@resend.dev>',
-      to: member.email,
-      subject:
-        type === 'nomination'
-          ? `BookByBoard - Nominate for ${monthName} ${year}`
-          : `BookByBoard - Vote for ${monthName} ${year}`,
+    const prepareEmail = (email: string) => ({
+      from: 'BookByBoard <notifier@resend.dev>',
+      to: email,
+      subject: subject,
       html: emailHTML,
-    }))
+    })
 
+    const mails = appConfig.isDev
+      ? localEmails.map(prepareEmail)
+      : members.map(member => {
+          return prepareEmail(member.email)
+        })
     const d = await resend.batch.send(mails)
 
     if (d.error) {
@@ -45,37 +69,44 @@ const sendEmail = async (type: 'nomination' | 'voting', members: IBoardMemberInf
 
     console.log(
       'Emails sent to',
-      members.map(member => member.email)
+      mails.map(main => main.to)
     )
   } catch (e) {
     console.log('e', e)
   }
 }
 
-const sendEmailToMembers = async (type: 'nomination' | 'voting') => {
-  const members = await listBoardMembers({})
-  await sendEmail(type, members)
-}
-
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const { secret } = req.query as unknown as IQuery
+
+  if (secret !== appConfig.notification.secret_key) {
+    return res.status(401).json({ message: 'Invalid token' })
+  }
+
   const id = getCurrentNominationId()
   const currentNotificationTracker = await getNotificationTrackerById(id)
 
   if (isEarlyMonth() && !currentNotificationTracker.nomination) {
-    await sendEmailToMembers('nomination')
-    await updateNotificationTracker(id, {
-      nomination: true,
-    })
+    const members = await listBoardMembers({})
+    await sendEmailWithResend(NOTIFICATION_TYPE.NOMINATION, members)
+    // TODO:
+    // await updateNotificationTracker(id, {
+    //   nomination: true,
+    // })
     return res.status(200).json({ message: 'Email sent to nominate' })
   }
 
   if (isMidMonth() && !currentNotificationTracker.voting) {
-    await sendEmailToMembers('voting')
-    await updateNotificationTracker(id, {
-      voting: true,
-    })
+    const members = await listBoardMembers({})
+    await sendEmailWithResend(NOTIFICATION_TYPE.VOTING, members)
+    // TODO:
+    // await updateNotificationTracker(id, {
+    //   voting: true,
+    // })
     return res.status(200).json({ message: 'Email sent to vote' })
   }
+
+  // TODO: add support for selecting book of the month
 
   return res.status(200).json({ message: 'No email sent' })
 }
