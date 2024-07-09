@@ -81,6 +81,11 @@ const nextConfig = {
     })
     return config
   },
+  experimental: {
+    outputFileTracingIncludes: {
+      '/api/notifier': ['./templates/**/*'],
+    },
+  },
 }
 
 module.exports = () => {
