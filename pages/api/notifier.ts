@@ -9,6 +9,7 @@ import { getAbsPath } from '../../scripts/fileSystem'
 import { Resend } from 'resend'
 import appConfig from '../../config/appConfig'
 import { ADMIN_USERS } from '../../constants/admin'
+import { v4 as uuid } from 'uuid'
 
 interface IQuery {
   secret: string
@@ -55,6 +56,9 @@ const sendEmailWithResend = async (type: NOTIFICATION_TYPE, members: IBoardMembe
       to: email,
       subject: subject,
       html: emailHTML,
+      headers: {
+        'X-Entity-Ref-ID': uuid(),
+      },
     })
 
     const mails = appConfig.isDev
