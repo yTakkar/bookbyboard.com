@@ -10,6 +10,7 @@ const getFreshTracker = (id: string): INotificationTracker => {
     id: id,
     nomination: false,
     voting: false,
+    selection: false,
     results: false,
   }
 }

@@ -56,6 +56,8 @@ const VotePage: NextPage<IProps> = () => {
   const [selectedSuggestion, setSelectedSuggestion] = useState<INominationSuggestion | null>(null)
   const [operationLoading, setOperationLoading] = useState(false)
 
+  const adminMember = boardMember ? isAdminUser(boardMember.email) : false
+
   const handleNominate = () => {
     methods.togglePopup(PopupType.SELECT_BOOK, {
       onBookSelect: (book: IBookInfo, note: string) => {
@@ -268,7 +270,7 @@ const VotePage: NextPage<IProps> = () => {
 
               <div className="mt-6 text-center">
                 Thank you for nominating! Voting for next month's selected book will open after the 15th of this month,
-                once 50% of the current month has passed.
+                once 50% of the current month has passed. We will email you when voting opens.
               </div>
             </div>
           </div>
@@ -327,7 +329,13 @@ const VotePage: NextPage<IProps> = () => {
             <div className="text-sm text-gray-600">{book.authors.join(', ')}</div>
 
             <div className="mt-6 text-center">
-              Thank you for voting! The selected book will be announced at the start of next month. Stay tuned!
+              Thank you for voting! The selected book will be announced at the start of next month.{' '}
+              {adminMember && (
+                <span>
+                  <b>Since you're an admin</b>, we will email you when selection begins.
+                </span>
+              )}{' '}
+              Stay tuned!
             </div>
           </div>
         )
@@ -337,7 +345,7 @@ const VotePage: NextPage<IProps> = () => {
         <div>
           <div>
             <div className="text-lg lg:text-xl mt-5 mb-1 w-[320px] md:w-auto">
-              Vote for the next book for{' '}
+              Help select Book of the Month for{' '}
               <span className="underline">
                 {getMonthNameFromId(nomination!.id)} {getMonthYearIndexFromId(nomination.id).year}
               </span>
@@ -382,8 +390,6 @@ const VotePage: NextPage<IProps> = () => {
     }
 
     if (isLateMonth()) {
-      const adminMember = isAdminUser(boardMember.email)
-
       if (adminMember && nomination.live) {
         return (
           <div className="flex flex-col items-center justify-center mt-20  md:w-[500px] m-auto">

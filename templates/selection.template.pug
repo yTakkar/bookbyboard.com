@@ -1,0 +1,53 @@
+doctype html
+html
+  head
+    style.
+      body {
+          font-family: Helvetica, sans-serif;
+          margin: 0;
+          padding: 0;
+          background-color: #f9f9f9;
+      }
+      .container {
+          max-width: 600px;
+          margin: 0 auto;
+          padding: 20px;
+          background-color: #ffffff;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .header {
+          text-align: center;
+          padding: 20px;
+      }
+      .content {
+          padding: 20px;
+          text-align: left;
+      }
+      .footer {
+          text-align: center;
+          padding: 20px;
+          font-size: 12px;
+          color: #999999;
+      }
+      .button {
+          background-color: #4D2557;
+          color: #fff !important;
+          padding: 10px 20px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          border-radius: 5px;
+          font-size: 16px;
+          margin: 10px 0;
+      }
+  body
+    .container
+      .header
+        img(src="https://bookbyboard.com/images/logos/transparent/logo-label-inline-transparent.png", alt="BookByBoard Logo", style="width: 150px;")
+        h2 Time to Select Book of the Month for #{dateString}!
+      .content
+        p Dear Admin Board Member,
+        p As the month comes to a close, it's time for us to select the book of the month for our community. Your participation as an admin is crucial in ensuring we pick the best book possible.
+        a.button(href="https://bookbyboard.com/nomination") Select Now
+      .footer
+        p Thank you for being a part of BookByBoard.

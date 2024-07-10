@@ -3,7 +3,8 @@ import { getMonthNameFromId, getMonthYearIndexFromId, hasMemberNominated, hasMem
 import ApplicationContext from '../ApplicationContext'
 import CoreLink from '../core/CoreLink'
 import { getNominationPageUrl } from '../../utils/routes'
-import { isEarlyMonth, isMidMonth } from '../../utils/date'
+import { isEarlyMonth, isLateMonth, isMidMonth } from '../../utils/date'
+import { isAdminUser } from '../../utils/common'
 
 interface INominationBannerProps {}
 
@@ -21,26 +22,69 @@ function NominationBanner({}: INominationBannerProps) {
   const monthName = getMonthNameFromId(nomination.id)
   const year = getMonthYearIndexFromId(nomination.id).year
 
+  const adminMember = boardMember ? isAdminUser(boardMember.email) : false
+
   let label = null
   if (isEarlyMonth()) {
-    label = hasNominated ? null : (
-      <span>
-        Click here to nominate for{' '}
-        <span className="underline">
-          {monthName} {year}
+    if (hasNominated) {
+      label = (
+        <span>
+          Click here to change your nomination for{' '}
+          <span className="underline">
+            {monthName} {year}
+          </span>
         </span>
-      </span>
-    )
+      )
+    } else {
+      label = (
+        <span>
+          Click here to nominate for{' '}
+          <span className="underline">
+            {monthName} {year}
+          </span>
+        </span>
+      )
+    }
   } else if (isMidMonth()) {
-    label = hasVoted ? null : (
-      <span>
-        Click here to vote for{' '}
-        <span className="underline">
-          {monthName} {year}
-        </span>{' '}
-        nominations
-      </span>
-    )
+    if (hasVoted) {
+      label = (
+        <span>
+          You have already voted for{' '}
+          <span className="underline">
+            {monthName} {year}
+          </span>
+        </span>
+      )
+    } else {
+      label = (
+        <span>
+          Click here to vote for{' '}
+          <span className="underline">
+            {monthName} {year}
+          </span>
+        </span>
+      )
+    }
+  } else if (isLateMonth()) {
+    if (adminMember && nomination.live) {
+      label = (
+        <span>
+          Click here to select book for{' '}
+          <span className="underline">
+            {monthName} {year}
+          </span>
+        </span>
+      )
+    } else {
+      label = (
+        <span>
+          Voting is locked for{' '}
+          <span className="underline">
+            {monthName} {year}
+          </span>
+        </span>
+      )
+    }
   }
 
   if (!label) {

@@ -83,9 +83,7 @@ const Header: React.FC<INavbarProps> = props => {
       count: null,
       onClick: e => {
         e.preventDefault()
-        methods.login(userInfo => {
-          router.push(getMemberPageUrl(userInfo.username))
-        })
+        methods.login()
       },
       show: !user,
       tooltipContent: 'Login with Google',

@@ -1,13 +1,14 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { listBoardMembers } from '../../firebase/store/boardMember'
+import { listBoardMembers, listBoardMembersByIds } from '../../firebase/store/boardMember'
 import { getCurrentNominationId, getMonthNameFromId, getMonthYearIndexFromId } from '../../utils/nomination'
 import { getNotificationTrackerById, updateNotificationTracker } from '../../firebase/store/notificationTracker'
-import { isEarlyMonth, isMidMonth } from '../../utils/date'
+import { isEarlyMonth, isLateMonth, isMidMonth } from '../../utils/date'
 import { IBoardMemberInfo } from '../../interface/boardMember'
 import { renderFile } from 'pug'
 import { getAbsPath } from '../../scripts/fileSystem'
 import { Resend } from 'resend'
 import appConfig from '../../config/appConfig'
+import { ADMIN_USERS } from '../../constants/admin'
 
 interface IQuery {
   secret: string
@@ -89,24 +90,29 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (isEarlyMonth() && !currentNotificationTracker.nomination) {
     const members = await listBoardMembers({})
     await sendEmailWithResend(NOTIFICATION_TYPE.NOMINATION, members)
-    // TODO:
-    // await updateNotificationTracker(id, {
-    //   nomination: true,
-    // })
+    await updateNotificationTracker(id, {
+      nomination: true,
+    })
     return res.status(200).json({ message: 'Email sent to nominate' })
   }
 
   if (isMidMonth() && !currentNotificationTracker.voting) {
     const members = await listBoardMembers({})
     await sendEmailWithResend(NOTIFICATION_TYPE.VOTING, members)
-    // TODO:
-    // await updateNotificationTracker(id, {
-    //   voting: true,
-    // })
+    await updateNotificationTracker(id, {
+      voting: true,
+    })
     return res.status(200).json({ message: 'Email sent to vote' })
   }
 
-  // TODO: add support for selecting book of the month
+  if (isLateMonth() && !currentNotificationTracker.selection) {
+    const members = await listBoardMembersByIds(ADMIN_USERS)
+    await sendEmailWithResend(NOTIFICATION_TYPE.SELECTION, members)
+    await updateNotificationTracker(id, {
+      selection: true,
+    })
+    return res.status(200).json({ message: 'Email sent to select' })
+  }
 
   return res.status(200).json({ message: 'No email sent' })
 }
