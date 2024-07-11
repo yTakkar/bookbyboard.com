@@ -137,7 +137,7 @@ const ProfilePage: NextPage<IProps> = (props: IProps) => {
 
         <div className="mt-10">
           <NoContent
-            message={`Books nominated by ${memberInfo.name} will appear here soon.`}
+            message={`Books nominated by ${memberInfo.name} will appear here soon. WIP!`}
             imageClassName="w-full lg:w-[700px]"
           />
         </div>

@@ -37,7 +37,7 @@ const AboutPage: NextPage<IProps> = () => {
             <div className="html-body">
               <p>
                 <span className="font-bold mb-1 block">BookByBoard</span>
-                {`Our mission is simple: to make it easier for readers to discover books that they might not find otherwise. We strive to bring a sense of community and excitement to the process of selecting and sharing great reads. `}
+                {`Our mission is simple: to make it easier for readers to discover books that they might not find otherwise.`}
               </p>
 
               <p>

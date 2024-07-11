@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import React from 'react'
+import React, { useContext } from 'react'
 import { INominationDetail, INominationSuggestion } from '../interface/nomination'
 import CoreImage from './core/CoreImage'
 import { enlargeBookImage } from '../utils/book'
@@ -25,6 +25,8 @@ import Tooltip from './Tooltip'
 import CalendarView from './nominate/CalendarView'
 import { APP_LOGO } from '../constants/constants'
 import NoContent from './NoContent'
+import ProductInfoBanner from './ProductInfoBanner'
+import ApplicationContext from './ApplicationContext'
 
 const localizedFormat = require('dayjs/plugin/localizedFormat')
 
@@ -75,6 +77,9 @@ const SelectedBook: React.FC<ISelectedBookProps> = props => {
     })
     toastSuccess('Link copied to clipboard!')
   }
+
+  const applicationContext = useContext(ApplicationContext)
+  const { boardMember } = applicationContext
 
   const { shouldShowNativeShare, handleNativeShare } = useNativeShare({
     onShareFail: handleURLCopy,
@@ -160,10 +165,10 @@ const SelectedBook: React.FC<ISelectedBookProps> = props => {
         <div className="flex items-center">
           <StarIcon className="w-5 md:w-6 text-yellow-500 mr-1" />
           <div className="text-brand-primary md:text-lg">
+            <span>Book of the Month - </span>
             <span className="underline">
-              {monthName} {year}'s
-            </span>{' '}
-            <span>selected book</span>
+              {monthName} {year}
+            </span>
           </div>
         </div>
         <div className="ml-2 flex items-center">
@@ -275,10 +280,15 @@ const SelectedBook: React.FC<ISelectedBookProps> = props => {
               </div>
             </Collapsible>
           </div>
+          {!boardMember && (
+            <div className="mt-10">
+              <ProductInfoBanner />
+            </div>
+          )}
         </>
       ) : (
         <NoContent
-          message={`The selected book for ${monthName} ${year} is not available.`}
+          message={`Book of the Month for ${monthName} ${year} is not available.`}
           imageClassName="w-full lg:w-[700px]"
         />
       )}
