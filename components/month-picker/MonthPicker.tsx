@@ -117,6 +117,11 @@ export function MonthPicker(props: any) {
           )
         })}
       </div>
+      <div
+        className={styles.footer}
+        onClick={() => {
+          changeMonth(new Date().getUTCMonth())
+        }}>{`Select current month`}</div>
     </div>
   )
 }

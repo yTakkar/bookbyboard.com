@@ -15,12 +15,14 @@ import { signInWithGoogle } from '../firebase/auth/auth'
 import { vibrate } from '../utils/common'
 import { toastError, toastSuccess } from '../components/Toaster'
 import { addBoardMember } from '../firebase/store/boardMember'
-import { PopupType } from '../interface/popup'
 import { isBoardMemberAllowed } from '../firebase/store/allowedBoardMembers'
+import { useRouter } from 'next/router'
+import { getMemberRequestPageUrl } from '../utils/routes'
 
 const useApplicationContext = () => {
   const { applicationContext, dispatchApplicationContext } = useApplicationContextReducer()
   const { isLandscapeMode } = useOrientation()
+  const router = useRouter()
 
   useEffect(() => {
     dispatchApplicationContext({
@@ -57,12 +59,7 @@ const useApplicationContext = () => {
       const boardMemberAllowed = await isBoardMemberAllowed(user.email as string)
 
       if (!boardMemberAllowed) {
-        togglePopup(PopupType.BOARD_MEMBER_REQUEST, {
-          boardMemberEmail: user.email,
-        })
-        appAnalytics.sendEvent({
-          action: AnalyticsEventType.BOARD_MEMBER_REQUEST,
-        })
+        router.push(getMemberRequestPageUrl())
         return
       }
 

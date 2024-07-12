@@ -1,7 +1,7 @@
 import { IAppSeoProps } from '../../../components/seo/AppSeo'
 import appConfig from '../../../config/appConfig'
 import { IBoardMemberInfo } from '../../../interface/boardMember'
-import { getMemberEditPageUrl, getMemberPageUrl } from '../../routes'
+import { getMemberEditPageUrl, getMemberPageUrl, getMemberRequestPageUrl } from '../../routes'
 
 export const prepareMemberPageSeo = (memberInfo: IBoardMemberInfo): IAppSeoProps => {
   const title = `${memberInfo.name} (@${memberInfo.username}) ${appConfig.seo.titleSuffix}`
@@ -37,5 +37,14 @@ export const prepareMemberEditPageSeo = (): IAppSeoProps => {
     keywords: [],
     noFollow: true,
     noIndex: true,
+  }
+}
+
+export const prepareMemberRequestPageSeo = (): IAppSeoProps => {
+  return {
+    title: `Request to become a board member ${appConfig.seo.titleSuffix}`,
+    description: `Request to become a board member on ${appConfig.global.app.name}`,
+    canonical: `${appConfig.global.baseUrl}${getMemberRequestPageUrl()}`,
+    keywords: [],
   }
 }

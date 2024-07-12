@@ -47,7 +47,7 @@ const AboutPage: NextPage<IProps> = () => {
 
               <p>
                 <span className="font-bold mb-1 block">How It Works?</span>
-                {`Every month, our board members, who are passionate readers from various backgrounds, propose their favorite books. These suggestions are then put to a vote. The book with the most votes becomes our "Book of the Month," which we feature prominently on our platform.`}
+                {`Every month, our board members, who are book enthusiasts nominate their favorite books. These nominations are then put to a vote. The book with the most votes becomes our "Book of the Month," which we feature prominently on our platform.`}
               </p>
 
               <p>

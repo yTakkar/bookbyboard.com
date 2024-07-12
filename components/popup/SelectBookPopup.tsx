@@ -123,7 +123,7 @@ const SelectBookPopup: React.FC<ISelectBookPopupProps> = props => {
             <div className="text-center mt-2">{`No books found. Try searching.`}</div>
           </div>
         ) : (
-          <div>
+          <div className="mb-[110px]">
             {books.map(book => (
               <React.Fragment key={book.id}>{renderBook(book)}</React.Fragment>
             ))}

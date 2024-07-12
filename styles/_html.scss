@@ -26,6 +26,11 @@
     @apply ml-5;
   }
 
+  & ol {
+    @apply list-decimal;
+    @apply ml-5;
+  }
+
   & li {
     @apply py-1;
   }

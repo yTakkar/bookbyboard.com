@@ -30,6 +30,10 @@ export const getMemberEditPageUrl = () => {
   return `/member/edit`
 }
 
+export const getMemberRequestPageUrl = () => {
+  return `/become-a-board-member`
+}
+
 export const getNominationPageUrl = () => {
   return '/nomination'
 }
