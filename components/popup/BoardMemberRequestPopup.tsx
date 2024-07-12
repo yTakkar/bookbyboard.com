@@ -4,6 +4,7 @@ import Modal from '../modal/Modal'
 import { APP_LOGO } from '../../constants/constants'
 import appConfig from '../../config/appConfig'
 import CoreLink from '../core/CoreLink'
+import { ExternalLinkIcon } from '@heroicons/react/outline'
 
 interface IBoardMemberRequestPopupProps {
   boardMemberEmail: string
@@ -27,8 +28,8 @@ const BoardMemberRequestPopup: React.FC<IBoardMemberRequestPopupProps> = props =
           <CoreLink
             url={appConfig.feedback.boardMemberRequestForm}
             isExternal
-            className="bg-brand-primary text-white hover:bg-brand-primaryLight py-2 px-3 rounded font-semibold text-base">
-            Fill form
+            className="bg-brand-primary text-white hover:bg-brand-primaryLight py-2 px-3 rounded font-semibold text-base flex items-center">
+            Fill form <ExternalLinkIcon className="w-5 inline-block ml-1" />
           </CoreLink>
         </div>
       </div>
