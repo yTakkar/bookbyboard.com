@@ -5,7 +5,7 @@ interface IProps {}
 
 function ProductInfoBanner(props: IProps) {
   return (
-    <div className="bg-gray-300 shadow rounded px-4 py-6 flex flex-col lg:flex-row">
+    <div className="bg-gray-200 px-4 py-6 flex flex-col lg:flex-row">
       <div className="">
         <div className="font-semibold">What is {appConfig.global.app.name}?</div>
         <div className="mt-2 html-body">

@@ -23,7 +23,7 @@ export const prepareHomePageSeo = (nomination: INominationDetail): IAppSeoProps 
 
   return {
     title: `${book.title} - Book of the Month | ${appConfig.global.app.name}`,
-    description: `Discover ${book.title}, the book of the month on BookByBoard, nominated by our board members. Learn why this book was chosen and join our community of passionate readers.`,
+    description: `Discover ${book.title}, the book of the month on BookByBoard, nominated by our board members. Learn why this book was chosen and join our community of book enthusiasts.`,
     canonical: `${appConfig.global.baseUrl}${getHomePageUrl()}`,
     keywords: [book.title, (book.authors || []).join(', ')],
     imageUrl: enlargeBookImage(book.imageUrls.thumbnail, BookZoomType.MEDIUM),

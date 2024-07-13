@@ -23,7 +23,7 @@ import appAnalytics from '../lib/analytics/appAnalytics'
 import { toastSuccess } from './Toaster'
 import Tooltip from './Tooltip'
 import CalendarView from './nominate/CalendarView'
-import { APP_LOGO } from '../constants/constants'
+import { APP_LOGO, SOCIAL_ICONS_SRC_MAP } from '../constants/constants'
 import NoContent from './NoContent'
 import ProductInfoBanner from './ProductInfoBanner'
 import ApplicationContext from './ApplicationContext'
@@ -159,6 +159,8 @@ const SelectedBook: React.FC<ISelectedBookProps> = props => {
     )
   }
 
+  const instagram = appConfig.company.socialLinks.find(link => link.type === 'INSTAGRAM')
+
   return (
     <div className="px-3">
       <div className="flex items-center mb-4 justify-between">
@@ -280,11 +282,25 @@ const SelectedBook: React.FC<ISelectedBookProps> = props => {
               </div>
             </Collapsible>
           </div>
-          {!boardMember && (
-            <div className="mt-10">
-              <ProductInfoBanner />
-            </div>
-          )}
+          <div className="mt-10">
+            <ProductInfoBanner />
+          </div>
+          <div className="mt-6 flex items-center justify-center">
+            For live updates, follow us on{' '}
+            <CoreLink
+              url={instagram!.url}
+              isExternal
+              title={`${instagram!.username}`}
+              className="flex items-center ml-1 border-b border-b-brand-primary">
+              Instagram
+              <CoreImage
+                url={SOCIAL_ICONS_SRC_MAP.INSTAGRAM_OFFICIAL}
+                alt={`${instagram!.username}`}
+                useTransparentPlaceholder
+                className={'w-4 ml-1'}
+              />
+            </CoreLink>
+          </div>
         </>
       ) : (
         <NoContent

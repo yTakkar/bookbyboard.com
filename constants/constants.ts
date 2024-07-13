@@ -38,6 +38,7 @@ export const SOCIAL_ICONS_SRC_MAP: Record<string, string> = {
   EMAIL: prepareImageUrl('/images/icons/social/email.svg', ImageSourceType.ASSET),
   FACEBOOK: prepareImageUrl('/images/icons/social/facebook.svg', ImageSourceType.ASSET),
   INSTAGRAM: prepareImageUrl('/images/icons/social/instagram.svg', ImageSourceType.ASSET),
+  INSTAGRAM_OFFICIAL: prepareImageUrl('/images/icons/social/instagram-official.svg', ImageSourceType.ASSET),
   LINKEDIN: prepareImageUrl('/images/icons/social/linkedin.svg', ImageSourceType.ASSET),
   TWITTER: prepareImageUrl('/images/icons/social/twitter.svg', ImageSourceType.ASSET),
   WHATSAPP: prepareImageUrl('/images/icons/social/whatsapp.svg', ImageSourceType.ASSET),
