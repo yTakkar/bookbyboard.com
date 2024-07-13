@@ -62,9 +62,9 @@ const SelectedBook: React.FC<ISelectedBookProps> = props => {
       ? `${appConfig.global.baseUrl}${getHomePageUrl()}`
       : `${appConfig.global.baseUrl}${getSelectedBookPageUrl(nominationId)}`
 
-  const shareText = `📚 ${book?.title} by ${book?.authors.join(
-    ', '
-  )} is the selected book for ${monthName} ${year} on ${appConfig.global.app.name}. Check it out! ${shareUrl}`
+  const shareText = `${book?.title} by ${book?.authors.join(', ')} - book of the month for ${monthName} ${year} on ${
+    appConfig.global.app.name
+  }. Check it out! ${shareUrl}`
 
   const handleURLCopy = () => {
     copyToClipboard(shareUrl)

@@ -11,8 +11,6 @@ import { INominationDetail } from '../../interface/nomination'
 import PageLoader from '../../components/loader/PageLoader'
 import { IBoardMemberInfo } from '../../interface/boardMember'
 import { INITIAL_PAGE_BUILD_COUNT, PAGE_REVALIDATE_TIME } from '../../constants/constants'
-import { MobileView } from '../../components/ResponsiveViews'
-import Snackbar from '../../components/header/Snackbar'
 import { prepareSelectedBookPageSeo } from '../../utils/seo/pages/selectedBook'
 
 interface IProps extends IGlobalLayoutProps {
@@ -35,16 +33,8 @@ const SelectedBookPage: NextPage<IProps> = props => {
 
   return (
     <div>
-      <MobileView>
-        <Snackbar title={'Back'} />
-      </MobileView>
-
       <PageContainer>
-        {/* <DesktopView>
-          <BackTitle title={'Back'} />
-        </DesktopView> */}
-
-        <div className="mt-4">
+        <div>
           <NominationBanner />
 
           <SelectedBook
@@ -105,7 +95,7 @@ export const getStaticProps: GetStaticProps<IProps> = async context => {
         header: {
           hideTopNav: {
             desktop: false,
-            mobile: true,
+            mobile: false,
           },
         },
         footer: {

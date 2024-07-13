@@ -268,7 +268,9 @@ const VotePage: NextPage<IProps> = () => {
 
               {note && <QuotesWrapper className="mt-4 text-center" text={note} />}
 
-              <div className="mt-6 text-center">
+              <CoreDivider className="mt-6 w-full" />
+
+              <div className="mt-8 text-center">
                 Thank you for nominating! Voting for next month's selected book will open after the 15th of this month,
                 once 50% of the current month has passed. We will email you when voting opens.
               </div>
@@ -328,7 +330,9 @@ const VotePage: NextPage<IProps> = () => {
             <div className="mt-3 text-lg text-center">{book.title}</div>
             <div className="text-sm text-gray-600">{book.authors.join(', ')}</div>
 
-            <div className="mt-6 text-center">
+            <CoreDivider className="mt-6 w-full" />
+
+            <div className="mt-8 text-center">
               Thank you for voting! The selected book will be announced at the start of next month.{' '}
               {adminMember && (
                 <span>
