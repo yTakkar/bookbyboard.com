@@ -251,7 +251,7 @@ const SelectedBook: React.FC<ISelectedBookProps> = props => {
               {book!.url && (
                 <div className="mt-4">
                   <CoreLink url={book!.url} isExternal className="border-b border-b-brand-primary mt-4 text-sm">
-                    Learn more here <ExternalLinkIcon className="w-3 inline-block" />
+                    Learn more here <ExternalLinkIcon className="w-[14px] inline-block" />
                   </CoreLink>
                 </div>
               )}
