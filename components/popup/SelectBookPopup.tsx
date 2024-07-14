@@ -2,10 +2,10 @@ import React, { useState } from 'react'
 import FullWidthModal from '../modal/FullWidthModal'
 import Loader, { LoaderType } from '../loader/Loader'
 import { toastError } from '../Toaster'
-import { prepareBookInfo, searchGoogleBooksByName } from '../../utils/book'
+import { enlargeBookImage, prepareBookInfo, searchGoogleBooksByName } from '../../utils/book'
 import CoreTextInput, { CoreTextInputType } from '../core/CoreInput'
 import { PencilAltIcon } from '@heroicons/react/outline'
-import { IBookInfo } from '../../interface/book'
+import { BookZoomType, IBookInfo } from '../../interface/book'
 import classNames from 'classnames'
 import CoreImage from '../core/CoreImage'
 import appConfig from '../../config/appConfig'
@@ -50,7 +50,7 @@ const SelectBookPopup: React.FC<ISelectBookPopupProps> = props => {
         <div className="flex items-center">
           <div>
             <CoreImage
-              url={book.imageUrls.smallThumbnail}
+              url={enlargeBookImage(book!.imageUrls.thumbnail, BookZoomType.MEDIUM) || APP_LOGO.DEFAULT_WHITE}
               alt={`${book.title} on ${appConfig.global.app.name}`}
               className="w-6 mr-2"
             />
@@ -78,7 +78,9 @@ const SelectBookPopup: React.FC<ISelectBookPopupProps> = props => {
             <div className="flex flex-col items-center cursor-pointer" onClick={() => setSelectedBook(null)}>
               <div className="flex justify-center">
                 <CoreImage
-                  url={selectedBook.imageUrls.thumbnail}
+                  url={
+                    enlargeBookImage(selectedBook!.imageUrls.thumbnail, BookZoomType.MEDIUM) || APP_LOGO.DEFAULT_WHITE
+                  }
                   alt={`${selectedBook.title} on ${appConfig.global.app.name}`}
                   className="w-16"
                 />

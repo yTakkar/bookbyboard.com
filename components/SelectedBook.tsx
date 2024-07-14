@@ -15,7 +15,7 @@ import CoreLink from './core/CoreLink'
 import { getHomePageUrl, getMemberPageUrl, getSelectedBookPageUrl } from '../utils/routes'
 import { copyToClipboard, pluralize } from '../utils/common'
 import Collapsible from './Collapsible'
-import { ChevronDownIcon, ShareIcon } from '@heroicons/react/outline'
+import { ChevronDownIcon, ExternalLinkIcon, ShareIcon } from '@heroicons/react/outline'
 import { IBoardMemberInfo } from '../interface/boardMember'
 import useNativeShare from '../hooks/useNativeShare'
 import { AnalyticsEventType } from '../constants/analytics'
@@ -27,6 +27,7 @@ import { APP_LOGO, SOCIAL_ICONS_SRC_MAP } from '../constants/constants'
 import NoContent from './NoContent'
 import ProductInfoBanner from './ProductInfoBanner'
 import ApplicationContext from './ApplicationContext'
+import numeral from 'numeral'
 
 const localizedFormat = require('dayjs/plugin/localizedFormat')
 
@@ -51,7 +52,7 @@ const SelectedBook: React.FC<ISelectedBookProps> = props => {
     s => s.boardMemberEmail === nomination.selectedBook?.boardMemberEmail
   ) as INominationSuggestion | undefined
 
-  const { book, note } = selectedSuggestion || {}
+  const { book, note, votes } = selectedSuggestion || {}
   const selectedBoardMember = (profileInfoMap || {})[selectedSuggestion?.boardMemberEmail as any]
 
   const monthName = getMonthNameFromId(nominationId)
@@ -242,10 +243,18 @@ const SelectedBook: React.FC<ISelectedBookProps> = props => {
                   </div>
                 )}
                 {/* <div className="table-row">
-              <dt className="table-cell py-1 pr-5 w-28 text-typo-paragraphLight">Votes received</dt>
-              <dd className="table-cell py-1">{numeral(votes?.length).format()}</dd>
-            </div> */}
+                  <dt className="table-cell py-1 pr-5 w-28 text-typo-paragraphLight">Votes received</dt>
+                  <dd className="table-cell py-1">{numeral(votes?.length).format()}</dd>
+                </div> */}
               </dl>
+
+              {book!.url && (
+                <div className="mt-4">
+                  <CoreLink url={book!.url} isExternal className="border-b border-b-brand-primary mt-4 text-sm">
+                    Learn more here <ExternalLinkIcon className="w-3 inline-block" />
+                  </CoreLink>
+                </div>
+              )}
             </div>
           </div>
           <CoreDivider className="my-6 md:my-8" />
