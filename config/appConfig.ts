@@ -1,9 +1,9 @@
 const app = {
   name: 'BookByBoard',
   shortName: 'BookByBoard',
-  title: 'BookByBoard - Expert-Selected Books Every Month',
+  title: 'BookByBoard - Books nominated and voted by board members',
   description:
-    'Discover expert-selected books every month on BookByBoard. Join our community of passionate readers and explore the best books of the month.',
+    'Discover books nominated and voted by board members. Read reviews, ratings, and summaries. Find books that are loved by board members.',
   key: 'BBB', // should be uppercase
 }
 

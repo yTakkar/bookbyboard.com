@@ -142,17 +142,25 @@ const VotePage: NextPage<IProps> = () => {
       })
   }
 
+  const getSuggestionWithHighestVotes = (): INominationSuggestion | undefined => {
+    const sortedSuggestions = (nomination?.suggestions || []).sort((a, b) => {
+      // @ts-ignore
+      return b.votes?.length - a.votes?.length
+    })
+    return sortedSuggestions[0]
+  }
+
   const handleBookSelect = () => {
-    const suggestionWithHighestVotes = nomination!.suggestions.reduce((prev, current) =>
-      prev.votes ? (prev.votes.length > (current.votes || [])!.length ? prev : current) : prev
-    )
+    const suggestionWithHighestVotes = getSuggestionWithHighestVotes()
 
     const newNomination: INominationDetail = {
       ...nomination!,
-      selectedBook: {
-        boardMemberEmail: suggestionWithHighestVotes.boardMemberEmail,
-      },
       live: false,
+    }
+    if (suggestionWithHighestVotes) {
+      newNomination.selectedBook = {
+        boardMemberEmail: suggestionWithHighestVotes.boardMemberEmail,
+      }
     }
 
     setOperationLoading(true)

@@ -3,8 +3,9 @@ import React, { useRef, useState } from 'react'
 import { MonthPicker } from '../month-picker/MonthPicker'
 import useOutsideClick from '../../hooks/useOutsideClick'
 import { useRouter } from 'next/router'
-import { getSelectedBookPageUrl } from '../../utils/routes'
+import { getHomePageUrl, getSelectedBookPageUrl } from '../../utils/routes'
 import Tooltip from '../Tooltip'
+import { getCurrentNominationId } from '../../utils/nomination'
 
 interface IProps {
   month: number
@@ -48,7 +49,12 @@ function CalendarView(props: IProps) {
           onChange={(s: any) => {
             // s.month is 1-indexed
             const monthIndex = s.month - 1
-            router.push(getSelectedBookPageUrl(`${monthIndex}-${s.year}`))
+            const year = s.year
+
+            const currentNominationId = getCurrentNominationId()
+            const newId = `${monthIndex}-${year}`
+
+            router.push(currentNominationId === newId ? getHomePageUrl() : getSelectedBookPageUrl(newId))
           }}
           size="small"
         />

@@ -2,7 +2,7 @@
 import React from 'react'
 import { IGlobalLayoutProps } from './_app'
 import { GetStaticProps, NextPage } from 'next'
-import { prepareBasePageSeo, prepareHomePageSeo } from '../utils/seo/pages/home'
+import { prepareHomePageSeo } from '../utils/seo/pages/home'
 import PageContainer from '../components/PageContainer'
 import { useRouter } from 'next/router'
 import NominationBanner from '../components/nominate/NominateBanner'
@@ -61,7 +61,7 @@ export const getStaticProps: GetStaticProps<IProps> = async () => {
         nomination: nomination || null,
         profileInfoMap,
       },
-      seo: nomination ? prepareHomePageSeo(nomination) : prepareBasePageSeo(),
+      seo: prepareHomePageSeo(nomination),
       layoutData: {
         header: {},
         footer: {
