@@ -6,7 +6,7 @@ import { getTnCPageUrl } from '../../routes'
 export const prepareTnCPageSeo = (): IAppSeoProps => {
   return {
     title: `Terms and Conditions ${appConfig.seo.titleSuffix}`,
-    description: `Terms and Conditions ${appConfig.seo.titleSuffix}`,
+    description: appConfig.global.app.description,
     canonical: `${appConfig.global.baseUrl}${getTnCPageUrl()}`,
     keywords: [],
   }

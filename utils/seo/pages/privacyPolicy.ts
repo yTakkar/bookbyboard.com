@@ -6,7 +6,7 @@ import { getPrivacyPageUrl } from '../../routes'
 export const preparePrivacyPolicyPageSeo = (): IAppSeoProps => {
   return {
     title: `Privacy Policy ${appConfig.seo.titleSuffix}`,
-    description: `Privacy policy ${appConfig.seo.titleSuffix}`,
+    description: appConfig.global.app.description,
     canonical: `${appConfig.global.baseUrl}${getPrivacyPageUrl()}`,
     keywords: [],
   }
