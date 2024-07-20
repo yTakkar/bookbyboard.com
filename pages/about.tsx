@@ -58,6 +58,20 @@ const AboutPage: NextPage<IProps> = () => {
                 </CoreLink>
                 {` if you have any questions or feedback. We would love to hear from you and are just an email away!`}
               </p>
+
+              <CoreDivider className="my-8" />
+
+              <p className="flex items-center">
+                ~ A weekend project by
+                <CoreLink url={appConfig.team.faiyaz} className="flex items-center underline" isExternal>
+                  <CoreImage url={'/images/team/faiyaz.jpeg'} alt="Faiyaz" className="w-5 mr-1 ml-2 rounded-full" />
+                  <span className="font-bold leading-4">Faiyaz</span>
+                </CoreLink>
+                <CoreLink url={appConfig.team.dhanvi} className="flex items-center underline" isExternal>
+                  <CoreImage url={'/images/team/dhanvi.jpeg'} alt="Dhanvi" className="w-5 mr-1 ml-2 rounded-full" />
+                  <span className="font-bold leading-4">Dhanvi</span>
+                </CoreLink>
+              </p>
             </div>
           </div>
         </div>

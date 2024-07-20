@@ -168,8 +168,9 @@ const appConfig = {
     copyrightText: `&copy; ${new Date().getFullYear()} ${app.name}. All rights reserved.`,
   },
   admin: {},
-  author: {
-    website: 'https://faiyaztakkar.dev',
+  team: {
+    faiyaz: 'https://faiyaztakkar.dev',
+    dhanvi: 'https://www.linkedin.com/in/dhanvioza/',
   },
   ads: {},
   featured: {},

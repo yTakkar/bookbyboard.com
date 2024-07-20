@@ -34,7 +34,6 @@ import { prepareMorePageSeo } from '../utils/seo/pages/more'
 import CoreImage from '../components/core/CoreImage'
 import { APP_LOGO } from '../constants/constants'
 import { getPreviousNominationId } from '../utils/nomination'
-import appConfig from '../config/appConfig'
 
 interface IProps extends IGlobalLayoutProps {
   pageData: {}
@@ -87,7 +86,7 @@ const MorePage: NextPage<IProps> = () => {
       show: true,
     },
     {
-      label: `What is ${appConfig.global.app.name}?`,
+      label: `About Us`,
       url: getAboutPageUrl(),
       icon: InformationCircleIcon,
       show: true,

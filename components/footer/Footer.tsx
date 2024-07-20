@@ -47,13 +47,7 @@ const Footer: React.FC<IFooterProps> = () => {
       <div className="bg-aliceBlue shadow-inner">
         <div className="container mx-auto">
           <div className="flex flex-row items-center justify-between py-4 px-4  text-gray-600">
-            <div className="flex items-center">
-              ~ {isDesktop ? 'A weekend project by' : 'By'}
-              <CoreLink url={appConfig.author.website} className="flex items-center underline" isExternal>
-                <CoreImage url={'/images/author.jpeg'} alt="Faiyaz" className="w-5 mr-1 ml-2 rounded-full" />
-                <div className="font-bold leading-4">Faiyaz</div>
-              </CoreLink>
-            </div>
+            <div className="flex items-center">{`${appConfig.global.app.name} © ${new Date().getFullYear()}`}</div>
 
             <div className="flex items-center">
               {appConfig.company.socialLinks.map((socialLink, index) => {
