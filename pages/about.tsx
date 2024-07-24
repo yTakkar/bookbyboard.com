@@ -59,7 +59,7 @@ const AboutPage: NextPage<IProps> = () => {
                 {` if you have any questions or feedback. We would love to hear from you and are just an email away!`}
               </p>
 
-              <CoreDivider className="my-8" />
+              {/* <CoreDivider className="my-8" />
 
               <p className="flex items-center">
                 ~ A weekend project by
@@ -71,7 +71,7 @@ const AboutPage: NextPage<IProps> = () => {
                   <CoreImage url={'/images/team/dhanvi.jpeg'} alt="Dhanvi" className="w-5 mr-1 ml-2 rounded-full" />
                   <span className="font-bold leading-4">Dhanvi</span>
                 </CoreLink>
-              </p>
+              </p> */}
             </div>
           </div>
         </div>
