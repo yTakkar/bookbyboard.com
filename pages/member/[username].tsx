@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { IGlobalLayoutProps } from '../_app'
 import PageContainer from '../../components/PageContainer'
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
@@ -19,6 +19,8 @@ import { IBoardMemberInfo } from '../../interface/boardMember'
 import { prepareMemberPageSeo } from '../../utils/seo/pages/member'
 import NominationBanner from '../../components/nominate/NominateBanner'
 import NoContent from '../../components/NoContent'
+import { customToast, toastError } from '../../components/Toaster'
+import { InformationCircleIcon } from '@heroicons/react/solid'
 
 interface IProps extends IGlobalLayoutProps {
   pageData: {
@@ -74,6 +76,16 @@ const ProfilePage: NextPage<IProps> = (props: IProps) => {
   const socialLinksToShow = socialLinks.filter(socialLink => socialLink.show)
 
   const currentUserProfile = memberInfo.username === boardMember?.username
+
+  useEffect(() => {
+    if (currentUserProfile && !socialLinksToShow.length) {
+      const message = 'Tip: Edit your profile with social links so readers can follow you!'
+      customToast(message, {
+        duration: 7 * 1000,
+        icon: <InformationCircleIcon className="w-5 min-w-5 inline-block" />,
+      })
+    }
+  }, [currentUserProfile, socialLinksToShow])
 
   return (
     <PageContainer>
