@@ -97,7 +97,7 @@ const AppSeo: React.FC<IAppSeoProps> = props => {
 
       {/* Twitter */}
       <meta name="twitter:site" content={appConfig.seo.twitter.username} />
-      <meta key="twitter:card" name="twitter:card" content={twitter?.card || 'summary_large_image'} />
+      <meta key="twitter:card" name="twitter:card" content={twitter?.card || 'summary'} />
       <meta name="twitter:app:name:iphone" content={appConfig.app.iOS.name} />
       <meta name="twitter:app:id:iphone" content={appConfig.app.iOS.id} />
       <meta name="twitter:app:name:googleplay" content={appConfig.app.android.name} />
