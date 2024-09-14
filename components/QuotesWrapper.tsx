@@ -15,7 +15,7 @@ const QuotesWrapper: React.FC<IQuotesWrapperProps> = props => {
   return (
     <>
       <span className={classNames('quotes-wrapper', className)} onClick={onClick}>
-        &nbsp;&nbsp;&nbsp;&nbsp;{text}&nbsp;&nbsp;{' '}
+        &nbsp;&nbsp;&nbsp;&nbsp;{text?.trim()}&nbsp;&nbsp;{' '}
       </span>
       {allowEdit && (
         <Tooltip content="Edit note" disableOnMobile>

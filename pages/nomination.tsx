@@ -74,7 +74,7 @@ const VotePage: NextPage<IProps> = () => {
               {
                 boardMemberEmail: boardMember!.email,
                 book,
-                note,
+                note: `${note}`.trim(),
                 votes: null,
               },
             ]
