@@ -72,9 +72,11 @@ export const getStaticProps: GetStaticProps<IProps> = async context => {
   // month-year
   const _nominationId = params.nominationId
 
+  const nominationSplit = _nominationId.split('-')
+
   // remove 0 from month (if it exists)
-  const month = _nominationId.split('-')[0].replace(/^0+/, '')
-  const year = _nominationId.split('-')[1]
+  const month = nominationSplit[0].replace(/^0+/, '') || '0'
+  const year = nominationSplit[1]
 
   const nominationId = `${month}-${year}`
 
